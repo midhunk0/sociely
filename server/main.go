@@ -3,6 +3,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"server/config"
 	"server/routes"
 
@@ -15,9 +16,10 @@ func main(){
 	config.ConnectDB()
 	// create a gin router
 	router:=gin.Default()
+	frontendURL:=os.Getenv("FRONTEND_URL")
 	// enable cors
 	router.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:5173"},
+		AllowOrigins: []string{frontendURL},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders: []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,
