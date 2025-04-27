@@ -92,7 +92,16 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 	// set cookie
-	c.SetCookie("auth", token, 24*60*60, "/", frontendDomain, flag, true)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name:     "auth",
+		Value:    token,
+		Path:     "/",
+		Domain:   frontendDomain,
+		MaxAge:   24*60*60,
+		Secure:   flag,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+	})
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
 
@@ -134,13 +143,32 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 	// set token in httpOnly cookie
-	c.SetCookie("auth", token, 24*60*60, "/", frontendDomain, flag, true)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name:     "auth",
+		Value:    token,
+		Path:     "/",
+		Domain:   frontendDomain,
+		MaxAge:   24*60*60,
+		Secure:   flag,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+	})
+	
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "token": token})
 }
 
 func LogoutUser(c *gin.Context) {
-	c.SetCookie("auth", "", -1, "/", frontendDomain, false, true)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name:     "auth",
+		Value:    "",
+		Path:     "/",
+		Domain:   frontendDomain,
+		MaxAge:   -1,               
+		Secure:   flag,              
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode, 
+	})	
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully", "success": true})
 }
 
