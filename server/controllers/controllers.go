@@ -2,7 +2,10 @@ package controllers
 
 import (
 	"context"
+	"log"
 	"net/http"
+	"net/url"
+	"os"
 	"server/config"
 	"server/models"
 	"server/utils"
@@ -12,6 +15,16 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
+
+var frontendDomain string
+func init() {
+	frontendURL:=os.Getenv("FRONTEND_URL")
+	parsedURL, err:=url.Parse(frontendURL)
+	if err!=nil {
+		log.Println("Invalid FRONTEND_URL");
+	}
+	frontendDomain=parsedURL.Host
+}
 
 func Hello(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"Message": "Hello, go"})
@@ -72,7 +85,7 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 	// set cookie
-	c.SetCookie("auth", token, 24*60*60, "/", "localhost", false, true)
+	c.SetCookie("auth", token, 24*60*60, "/", frontendDomain, false, true)
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
 
@@ -114,13 +127,13 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 	// set token in httpOnly cookie
-	c.SetCookie("auth", token, 24*60*60, "/", "localhost", false, true)
+	c.SetCookie("auth", token, 24*60*60, "/", frontendDomain, false, true)
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "token": token})
 }
 
 func LogoutUser(c *gin.Context) {
-	c.SetCookie("auth", "", -1, "/", "localhost", false, true)
+	c.SetCookie("auth", "", -1, "/", frontendDomain, false, true)
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully", "success": true})
 }
 
