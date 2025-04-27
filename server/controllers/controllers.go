@@ -17,7 +17,14 @@ import (
 )
 
 var frontendDomain string
+var flag bool
 func init() {
+	mode:=os.Getenv("MODE")
+	if mode=="development" {
+		flag=false 
+	} else {
+		flag=true
+	}
 	frontendURL:=os.Getenv("FRONTEND_URL")
 	parsedURL, err:=url.Parse(frontendURL)
 	if err!=nil {
@@ -85,7 +92,7 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 	// set cookie
-	c.SetCookie("auth", token, 24*60*60, "/", frontendDomain, false, true)
+	c.SetCookie("auth", token, 24*60*60, "/", frontendDomain, flag, true)
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
 
@@ -127,7 +134,7 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 	// set token in httpOnly cookie
-	c.SetCookie("auth", token, 24*60*60, "/", frontendDomain, false, true)
+	c.SetCookie("auth", token, 24*60*60, "/", frontendDomain, flag, true)
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "token": token})
 }
