@@ -28,5 +28,9 @@ func main(){
 	routes.Routes(router)
 	// start server
 	log.Println("Server running on port 8000...")
-	router.Run(":8000")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
+	router.Run(":" + port)
 }
