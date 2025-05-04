@@ -86,13 +86,11 @@ func RegisterUser(c *gin.Context) {
 		Value:    token,
 		Path:     "/",
 		MaxAge:   24*60*60,
-		Secure:   secure,
 		HttpOnly: true,
+		Secure:   secure,
 		SameSite: sameSite,
 	}
-	if os.Getenv("MODE") == "production" {
-        cookie.Domain = ".vercel.app" // Set domain only in production
-    }
+
 	http.SetCookie(c.Writer, cookie)
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
@@ -141,13 +139,11 @@ func LoginUser(c *gin.Context) {
 		Value:    token,
 		Path:     "/",
 		MaxAge:   24*60*60,
-		Secure:   secure,
 		HttpOnly: true,
+		Secure:   secure,
 		SameSite: sameSite,
 	}
-	if os.Getenv("MODE") == "production" {
-        cookie.Domain = ".vercel.app" // Set domain only in production
-    }
+
 	http.SetCookie(c.Writer, cookie)
 	
 	// send token in response
@@ -166,9 +162,7 @@ func LogoutUser(c *gin.Context) {
 		HttpOnly: true,
 		SameSite: sameSite,
 	}
-	if os.Getenv("MODE") == "production" {
-        cookie.Domain = ".vercel.app" // Set domain only in production
-    }
+
 	http.SetCookie(c.Writer, cookie)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully", "success": true})

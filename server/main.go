@@ -23,7 +23,6 @@ func main(){
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		AllowCredentials: true,
-		ExposeHeaders: []string{"Set-Cookie"},
 	}))
 	// routes
 	routes.Routes(router)
