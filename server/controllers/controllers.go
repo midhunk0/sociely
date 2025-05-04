@@ -80,14 +80,20 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 	// set cookie
-	_, secure := getCookieSettings() 
-	
+	// Replace your current cookie setting code with this:
+	sameSite, secure := getCookieSettings()
+	domain := ""
+	if os.Getenv("MODE") == "production" {
+		domain = "sociely.vercel.app"
+	}
+
+	c.SetSameSite(sameSite) // This is the critical line you're missing
 	c.SetCookie(
 		"auth",
 		token,
 		86400,
 		"/",
-		"",
+		domain,
 		secure,
 		true,
 	)
@@ -132,14 +138,20 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 	// set token in httpOnly cookie
-	_, secure := getCookieSettings() 
-	
+	// Replace your current cookie setting code with this:
+	sameSite, secure := getCookieSettings()
+	domain := ""
+	if os.Getenv("MODE") == "production" {
+		domain = "sociely.vercel.app"
+	}
+
+	c.SetSameSite(sameSite) // This is the critical line you're missing
 	c.SetCookie(
 		"auth",
 		token,
 		86400,
 		"/",
-		"",
+		domain,
 		secure,
 		true,
 	)
@@ -149,14 +161,20 @@ func LoginUser(c *gin.Context) {
 }
 
 func LogoutUser(c *gin.Context) {
-	_, secure := getCookieSettings() 
-	
+	// Replace your current cookie setting code with this:
+	sameSite, secure := getCookieSettings()
+	domain := ""
+	if os.Getenv("MODE") == "production" {
+		domain = "sociely.vercel.app"
+	}
+
+	c.SetSameSite(sameSite) // This is the critical line you're missing
 	c.SetCookie(
 		"auth",
 		"",
 		-1,
 		"/",
-		"",
+		domain,
 		secure,
 		true,
 	)
