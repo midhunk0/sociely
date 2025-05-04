@@ -81,17 +81,13 @@ func RegisterUser(c *gin.Context) {
 	}
 	// set cookie
 	_, secure := getCookieSettings() 
-	domain := ""
-	if os.Getenv("MODE") == "production" {
-		domain = ".sociely.vercel.app"
-	}
 	
 	c.SetCookie(
 		"auth",
 		token,
 		86400,
 		"/",
-		domain,
+		"",
 		secure,
 		true,
 	)
@@ -137,17 +133,13 @@ func LoginUser(c *gin.Context) {
 	}
 	// set token in httpOnly cookie
 	_, secure := getCookieSettings() 
-	domain := ""
-	if os.Getenv("MODE") == "production" {
-		domain = ".sociely.vercel.app"
-	}
 	
 	c.SetCookie(
 		"auth",
 		token,
 		86400,
 		"/",
-		domain,
+		"",
 		secure,
 		true,
 	)
@@ -158,18 +150,13 @@ func LoginUser(c *gin.Context) {
 
 func LogoutUser(c *gin.Context) {
 	_, secure := getCookieSettings() 
-
-	domain := ""
-	if os.Getenv("MODE") == "production" {
-		domain = ".sociely.vercel.app"
-	}
 	
 	c.SetCookie(
 		"auth",
 		"",
 		-1,
 		"/",
-		domain,
+		"",
 		secure,
 		true,
 	)
