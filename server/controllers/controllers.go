@@ -14,15 +14,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// var frontendDomain string
-var flag bool
-func init() {
-	mode:=os.Getenv("MODE")
-	if mode=="development" {
-		flag=false 
-	} else {
-		flag=true
+func getCookieSettings()(sameSite http.SameSite, secure bool) {
+	if os.Getenv("MODE")=="production" {
+		return http.SameSiteNoneMode, true
 	}
+	return http.SameSiteLaxMode, false
 }
 
 func Hello(c *gin.Context) {
@@ -84,14 +80,15 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 	// set cookie
+	sameSite, secure := getCookieSettings() 
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:     "auth",
 		Value:    token,
 		Path:     "/",
 		MaxAge:   24*60*60,
-		Secure:   flag,
+		Secure:   secure,
 		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode,
+		SameSite: sameSite,
 	})
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
@@ -134,14 +131,15 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 	// set token in httpOnly cookie
+	sameSite, secure := getCookieSettings() 
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:     "auth",
 		Value:    token,
 		Path:     "/",
 		MaxAge:   24*60*60,
-		Secure:   flag,
+		Secure:   secure,
 		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode,
+		SameSite: sameSite,
 	})
 	
 	// send token in response
@@ -149,15 +147,17 @@ func LoginUser(c *gin.Context) {
 }
 
 func LogoutUser(c *gin.Context) {
+	sameSite, secure := getCookieSettings() 
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name:     "auth",
 		Value:    "",
 		Path:     "/",
-		MaxAge:   -1,               
-		Secure:   flag,              
+		MaxAge:   -1,
+		Secure:   secure,
 		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode, 
-	})	
+		SameSite: sameSite,
+	})
+
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully", "success": true})
 }
 
