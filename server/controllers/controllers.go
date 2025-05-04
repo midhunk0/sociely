@@ -91,6 +91,10 @@ func RegisterUser(c *gin.Context) {
 		SameSite: sameSite,
 	}
 
+	if os.Getenv("MODE") == "production" {
+		cookie.Domain = "sociely.vercel.app" 
+	}
+
 	http.SetCookie(c.Writer, cookie)
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
@@ -144,6 +148,10 @@ func LoginUser(c *gin.Context) {
 		SameSite: sameSite,
 	}
 
+	if os.Getenv("MODE") == "production" {
+		cookie.Domain = "sociely.vercel.app" 
+	}
+
 	http.SetCookie(c.Writer, cookie)
 	
 	// send token in response
@@ -161,6 +169,10 @@ func LogoutUser(c *gin.Context) {
 		Secure:   secure,
 		HttpOnly: true,
 		SameSite: sameSite,
+	}
+
+	if os.Getenv("MODE") == "production" {
+		cookie.Domain = "sociely.vercel.app" 
 	}
 
 	http.SetCookie(c.Writer, cookie)
