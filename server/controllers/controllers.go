@@ -80,22 +80,21 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 	// set cookie
-	sameSite, secure := getCookieSettings() 
-	cookie:=&http.Cookie{
-		Name:     "auth",
-		Value:    token,
-		Path:     "/",
-		MaxAge:   24*60*60,
-		HttpOnly: true,
-		Secure:   secure,
-		SameSite: sameSite,
-	}
-
+	_, secure := getCookieSettings() 
+	domain := ""
 	if os.Getenv("MODE") == "production" {
-		cookie.Domain = "sociely.vercel.app" 
+		domain = "sociely.vercel.app"
 	}
-
-	http.SetCookie(c.Writer, cookie)
+	
+	c.SetCookie(
+		"auth",
+		token,
+		86400,
+		"/",
+		domain,
+		secure,
+		true,
+	)
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
 
@@ -137,45 +136,43 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 	// set token in httpOnly cookie
-	sameSite, secure := getCookieSettings() 
-	cookie:=&http.Cookie{
-		Name:     "auth",
-		Value:    token,
-		Path:     "/",
-		MaxAge:   24*60*60,
-		HttpOnly: true,
-		Secure:   secure,
-		SameSite: sameSite,
-	}
-
+	_, secure := getCookieSettings() 
+	domain := ""
 	if os.Getenv("MODE") == "production" {
-		cookie.Domain = "sociely.vercel.app" 
+		domain = "sociely.vercel.app"
 	}
-
-	http.SetCookie(c.Writer, cookie)
+	
+	c.SetCookie(
+		"auth",
+		token,
+		86400,
+		"/",
+		domain,
+		secure,
+		true,
+	)
 	
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "token": token})
 }
 
 func LogoutUser(c *gin.Context) {
-	sameSite, secure := getCookieSettings() 
+	_, secure := getCookieSettings() 
 
-	cookie:=&http.Cookie{
-		Name:     "auth",
-		Value:    "",
-		Path:     "/",
-		MaxAge:   -1,
-		Secure:   secure,
-		HttpOnly: true,
-		SameSite: sameSite,
-	}
-
+	domain := ""
 	if os.Getenv("MODE") == "production" {
-		cookie.Domain = "sociely.vercel.app" 
+		domain = "sociely.vercel.app"
 	}
-
-	http.SetCookie(c.Writer, cookie)
+	
+	c.SetCookie(
+		"auth",
+		"",
+		86400,
+		"/",
+		domain,
+		secure,
+		true,
+	)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully", "success": true})
 }
