@@ -2,9 +2,7 @@ package controllers
 
 import (
 	"context"
-	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"server/config"
 	"server/models"
@@ -16,7 +14,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var frontendDomain string
+// var frontendDomain string
 var flag bool
 func init() {
 	mode:=os.Getenv("MODE")
@@ -25,12 +23,6 @@ func init() {
 	} else {
 		flag=true
 	}
-	frontendURL:=os.Getenv("FRONTEND_URL")
-	parsedURL, err:=url.Parse(frontendURL)
-	if err!=nil {
-		log.Println("Invalid FRONTEND_URL");
-	}
-	frontendDomain=parsedURL.Host
 }
 
 func Hello(c *gin.Context) {
@@ -96,7 +88,6 @@ func RegisterUser(c *gin.Context) {
 		Name:     "auth",
 		Value:    token,
 		Path:     "/",
-		Domain:   frontendDomain,
 		MaxAge:   24*60*60,
 		Secure:   flag,
 		HttpOnly: true,
@@ -147,7 +138,6 @@ func LoginUser(c *gin.Context) {
 		Name:     "auth",
 		Value:    token,
 		Path:     "/",
-		Domain:   frontendDomain,
 		MaxAge:   24*60*60,
 		Secure:   flag,
 		HttpOnly: true,
@@ -163,7 +153,6 @@ func LogoutUser(c *gin.Context) {
 		Name:     "auth",
 		Value:    "",
 		Path:     "/",
-		Domain:   frontendDomain,
 		MaxAge:   -1,               
 		Secure:   flag,              
 		HttpOnly: true,

@@ -20,8 +20,8 @@ func main(){
 	// enable cors
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{frontendURL},
-		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders: []string{"Content-Type", "Authorization"},
+		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		AllowCredentials: true,
 	}))
 	// routes
