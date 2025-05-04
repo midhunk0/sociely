@@ -1,1 +1,0 @@
-<h1>hello all, you are authenticated!</h1>

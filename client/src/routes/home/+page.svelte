@@ -1,5 +1,6 @@
 <script lang="ts">
-    import Topbar from "../../components/Topbar.svelte";
 </script>
 
-<Topbar/>
+<div class="page">
+    <h1>home</h1>
+</div>

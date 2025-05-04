@@ -7,5 +7,9 @@ export function load({ cookies, url }) {
         throw redirect(302, "/login");
     }
 
+    if(url.pathname==="/"){
+        throw redirect(307, "/home");
+    }
+
     return { user: token ? { authenticated: true } : null };
 }
