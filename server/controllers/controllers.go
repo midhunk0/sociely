@@ -14,7 +14,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func getCookieSettings()(sameSite http.SameSite, secure bool) {
+func getCookieSettings() (sameSite http.SameSite, secure bool) {
 	if os.Getenv("MODE")=="production" {
 		return http.SameSiteNoneMode, true
 	}
@@ -81,7 +81,7 @@ func RegisterUser(c *gin.Context) {
 	}
 	// set cookie
 	sameSite, secure := getCookieSettings() 
-	http.SetCookie(c.Writer, &http.Cookie{
+	cookie:=&http.Cookie{
 		Name:     "auth",
 		Value:    token,
 		Path:     "/",
@@ -89,7 +89,11 @@ func RegisterUser(c *gin.Context) {
 		Secure:   secure,
 		HttpOnly: true,
 		SameSite: sameSite,
-	})
+	}
+	if os.Getenv("MODE") == "production" {
+        cookie.Domain = ".vercel.app" // Set domain only in production
+    }
+	http.SetCookie(c.Writer, cookie)
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
 
@@ -132,7 +136,7 @@ func LoginUser(c *gin.Context) {
 	}
 	// set token in httpOnly cookie
 	sameSite, secure := getCookieSettings() 
-	http.SetCookie(c.Writer, &http.Cookie{
+	cookie:=&http.Cookie{
 		Name:     "auth",
 		Value:    token,
 		Path:     "/",
@@ -140,7 +144,11 @@ func LoginUser(c *gin.Context) {
 		Secure:   secure,
 		HttpOnly: true,
 		SameSite: sameSite,
-	})
+	}
+	if os.Getenv("MODE") == "production" {
+        cookie.Domain = ".vercel.app" // Set domain only in production
+    }
+	http.SetCookie(c.Writer, cookie)
 	
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "token": token})
@@ -148,7 +156,8 @@ func LoginUser(c *gin.Context) {
 
 func LogoutUser(c *gin.Context) {
 	sameSite, secure := getCookieSettings() 
-	http.SetCookie(c.Writer, &http.Cookie{
+
+	cookie:=&http.Cookie{
 		Name:     "auth",
 		Value:    "",
 		Path:     "/",
@@ -156,7 +165,11 @@ func LogoutUser(c *gin.Context) {
 		Secure:   secure,
 		HttpOnly: true,
 		SameSite: sameSite,
-	})
+	}
+	if os.Getenv("MODE") == "production" {
+        cookie.Domain = ".vercel.app" // Set domain only in production
+    }
+	http.SetCookie(c.Writer, cookie)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully", "success": true})
 }
