@@ -80,19 +80,24 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 	// set cookie
-	// Replace your current cookie setting code with this:
-	sameSite, secure := getCookieSettings()
 
-	c.SetSameSite(sameSite) // This is the critical line you're missing
-	c.SetCookie(
-		"auth",
-		token,
-		86400,
-		"/",
-		"",
-		secure,
-		true,
-	)
+	secure:=os.Getenv("MODE")=="production"
+	sameSite:=http.SameSiteLaxMode
+	if secure {
+		sameSite=http.SameSiteNoneMode
+	}
+
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name: "auth",
+		Value: token,
+		Path: "/",
+		Domain: os.Getenv("DOMAIN"),
+		Expires: time.Now().Add(24*time.Hour),
+		HttpOnly: true,
+		Secure: secure,
+		SameSite: sameSite,
+	})
+
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
 
@@ -134,19 +139,22 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 	// set token in httpOnly cookie
-	// Replace your current cookie setting code with this:
-	sameSite, secure := getCookieSettings()
+	secure:=os.Getenv("MODE")=="production"
+	sameSite:=http.SameSiteLaxMode
+	if secure {
+		sameSite=http.SameSiteNoneMode
+	}
 
-	c.SetSameSite(sameSite) // This is the critical line you're missing
-	c.SetCookie(
-		"auth",
-		token,
-		86400,
-		"/",
-		"",
-		secure,
-		true,
-	)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name: "auth",
+		Value: token,
+		Path: "/",
+		Domain: os.Getenv("DOMAIN"),
+		Expires: time.Now().Add(24*time.Hour),
+		HttpOnly: true,
+		Secure: secure,
+		SameSite: sameSite,
+	})
 	
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Login successful", "token": token})
@@ -154,18 +162,23 @@ func LoginUser(c *gin.Context) {
 
 func LogoutUser(c *gin.Context) {
 	// Replace your current cookie setting code with this:
-	sameSite, secure := getCookieSettings()
+	secure:=os.Getenv("MODE")=="production"
+	sameSite:=http.SameSiteLaxMode
+	if secure {
+		sameSite=http.SameSiteNoneMode
+	}
 
-	c.SetSameSite(sameSite) // This is the critical line you're missing
-	c.SetCookie(
-		"auth",
-		"",
-		-1,
-		"/",
-		"",
-		secure,
-		true,
-	)
+	http.SetCookie(c.Writer, &http.Cookie{
+		Name: "auth",
+		Value: "",
+		Path: "/",
+		Domain: os.Getenv("DOMAIN"),
+		Expires: time.Unix(0, 0),
+		MaxAge: -1,
+		HttpOnly: true,
+		Secure: secure,
+		SameSite: sameSite,
+	})
 
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully", "success": true})
 }
