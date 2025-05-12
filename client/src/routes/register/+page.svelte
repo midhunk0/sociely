@@ -17,6 +17,7 @@
 </script>
 
 <div class="register-page">
+    <img class="register-image" src="/community.png" alt="community">
     <form class="register-form" on:submit={handleRegister}>
         <h1>Register</h1>
         <div class="register-input">
@@ -36,14 +37,13 @@
             <div class="register-password">
                 <input type={visible ? "text" : "password"} id="password" bind:value={password} placeholder="Password" required>
                 <button type="button" on:click={()=>visible=!visible} class="eye">
-                    <img src={visible ? "/eye.png" : "eye-crossed.png"} alt="eye">
+                    <img src={visible ? "/eye-white.png" : "eye-crossed-white.png"} alt="eye">
                 </button>
             </div>
         </div>
         <button type="submit" class="register-button">Register</button>
         <p>Already have an account? <a href="/login">Login</a></p>
     </form>
-    <img class="register-image" src="/community.png" alt="community">
 </div>
 
 <Logo/>
@@ -51,10 +51,11 @@
 <style>
     .register-page {
         display: flex;
-        height: calc(100vh - 16px);
-        margin: 8px;
-        border-radius: 8px;
-        gap: 16px;
+        height: 100vh;
+        padding: 8px;
+        gap: 8px;
+        background-color: var(--bg1);
+        color: var(--text1);
     }
     
     .register-form {
@@ -76,7 +77,9 @@
 
     input {
         padding: 16px;
-        border: 1px solid black;
+        background-color: var(--bg2);
+        color: var(--text1);
+        border: 1px solid var(--bg1);
         outline: none;
         font-size: 16px;
         border-radius: 8px;
@@ -88,7 +91,7 @@
     }
 
     input:focus{
-        border: 1px solid #E05E35;
+        border: 1px solid var(--orange);
     }
 
     .register-password input:focus{
@@ -100,17 +103,17 @@
         align-items: center;
         width: 100%;
         position: relative;
-        border: 1px solid black;
+        border: 1px solid var(--bg1);
         border-radius: 8px;
     }
 
     .register-password:focus-within{
-        border: 1px solid #E05E35;
+        border: 1px solid var(--orange);
     }
 
     .eye{
         position: absolute;
-        background-color: white;
+        background-color: var(--bg2);
         display: flex;
         border: none;
         right: 16px;
@@ -128,30 +131,31 @@
 
     a {
         text-decoration: underline;
-        color: black;
+        color: var(--text1);
     }
 
     a:hover {
-        color: #E05E35;
+        color: var(--orange);
     }
 
     .register-button {
         padding: 16px;
         font-size: 16px;
-        background-color: black;
-        color: white;
-        border: 1px solid black;
+        background-color: var(--text1);
+        color: var(--bg1);
+        border: 1px solid var(--bg1);
         outline: none;
         cursor: pointer;
         border-radius: 8px;
     }
 
     .register-button:hover {
-        background-color: #E05E35;
+        color: var(--text1);
+        background-color: var(--orange);
     }
 
     .register-image {
-        width: calc(50% - 8px);
+        width: calc(50% - 4px);
         object-fit: cover;
         border-radius: 8px;
     }

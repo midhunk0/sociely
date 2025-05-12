@@ -1,6 +1,7 @@
 <script lang="ts">
     import { logoutUser } from "$lib/api";
     import { goto } from "$app/navigation";
+
     
     async function handleLogout() {
         const result=await logoutUser();
@@ -31,10 +32,12 @@
        cursor: pointer;
        border: none;
        width: fit-content;
+       background-color: var(--text2);
+       color: var(--bg2);
     }
 
     .logout:hover{
-        background-color: #E05E35;
-        color: white;
+        background-color: var(--orange);
+        color: var(--white);
     }
 </style>

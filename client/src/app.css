@@ -1,16 +1,16 @@
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Roboto", sans-serif;
 }
 
-h1 {
+h1{
     font-family: "Oswald", sans-serif;
     font-size: 42px;
 }
 
-h2 {
+h2{
     font-family: "Oswald", sans-serif;
     font-size: 32px;
     line-height: 1;
@@ -20,4 +20,27 @@ h2 {
     width: 24px;
     height: 24px;
     cursor: pointer;
+}
+
+:root{
+    --transition: all 0.2s ease;
+    --orange: #E05E35;
+    --black: #000000;
+    --white: #FFFFFF;
+
+    --bg1: #FFFFFF;
+    --bg2: #F5F5F5;  
+    --bg3: #E0E0E0;  
+    --text1: #000000;
+    --text2: #111111;  
+    --text3: #2A2A2A;  
+}
+
+[data-theme="dark"]{
+    --bg1: #000000;
+    --bg2: #111111;
+    --bg3: #2A2A2A;
+    --text1: #FFFFFF;
+    --text2: #F5F5F5;  
+    --text3: #E0E0E0;  
 }

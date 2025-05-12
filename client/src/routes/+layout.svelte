@@ -1,35 +1,60 @@
 <script lang="ts">
-	import Navbar from "../components/Navbar.svelte";
+	import Sidebar from "../components/Sidebar.svelte";
 	import "../app.css"
 	import { page } from '$app/stores';
+    import { onMount } from "svelte";
+    import Topbar from "../components/Topbar.svelte";
+    import Navbar from "../components/Navbar.svelte";
 
-	$: hideLayout = ['/login', '/register'].includes($page.url.pathname);
+	$: hideLayout=['/login', '/register'].includes($page.url.pathname);
+    let isMobile=false;
+
+    onMount(()=>{
+        const updateScreen=()=>{
+            isMobile=window.innerWidth<=440;
+        };
+        updateScreen();
+        window.addEventListener("resize", updateScreen);
+        return()=>window.removeEventListener("resize", updateScreen);
+    })
+
 </script>
 
 {#if !hideLayout}
-	<div class="layout">
-		<Navbar />
-		<div class="page-contents">
-			<slot />
-		</div>
-	</div>
+    {#if isMobile}
+        <div class="layout">
+            <Topbar/>
+            <div class="page-contents">
+                <slot />
+            </div>
+            <Navbar/>
+        </div>
+    {:else}
+
+        <div class="layout">
+            <Sidebar/>
+            <div class="page-contents">
+                <slot />
+            </div>
+        </div>
+    {/if}
 {:else}
-	<slot />
+	<slot/>
 {/if}
 
 <style>
-	.layout {
+	.layout{
 		display: flex;
 		padding: 16px;
 		height: 100vh;
 		gap: 16px;
-		background-color: #000000;
-		color: white;
+		background-color: var(--bg1);
+		color: var(--text1);
 	}
 
-	.page-contents {
-		border: 2px solid #2A2A2A;
-        background-color: #111111;
+	.page-contents{
+		border: 2px solid var(--bg3);
+        background-color: var(--bg2);
 		padding: 16px;
 		line-height: 1;
 		width: 100%;
@@ -38,7 +63,7 @@
 
     @media(max-width: 440px){
         .layout{
-            flex-direction: column-reverse;
+            flex-direction: column;
         }
 
         .page-contents{
