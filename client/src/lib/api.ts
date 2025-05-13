@@ -16,8 +16,8 @@ export async function registerUser(registerData: RegisterData) {
     const response=await fetch(`${API_URL}/registerUser`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registerData),
-        credentials: "include"
+        credentials: "include",
+        body: JSON.stringify(registerData)
     });
     return response.json();
 };
@@ -26,8 +26,8 @@ export async function loginUser(loginData: LoginData) {
     const response=await fetch(`${API_URL}/loginUser`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData),
-        credentials: "include"
+        credentials: "include",
+        body: JSON.stringify(loginData)
     });
     return response.json();
 };

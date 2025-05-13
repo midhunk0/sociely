@@ -142,7 +142,7 @@ func LoginUser(c *gin.Context) {
 		Name: "auth",
 		Value: token,
 		Path: "/",
-		Domain: os.Getenv("DOMAIN"),
+		// Domain: os.Getenv("DOMAIN"),
 		Expires: time.Now().Add(24*time.Hour),
 		HttpOnly: true,
 		Secure: secure,
