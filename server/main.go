@@ -21,8 +21,8 @@ func main(){
 		AllowOrigins: []string{os.Getenv("FRONTEND_URL")},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders: []string{"Set-Cookie"},
 		AllowCredentials: true,
-		ExposeHeaders:    []string{"Set-Cookie"},
 	}))
 	// routes
 	routes.Routes(router)

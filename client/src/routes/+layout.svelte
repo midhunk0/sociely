@@ -30,7 +30,6 @@
             <Navbar/>
         </div>
     {:else}
-
         <div class="layout">
             <Sidebar/>
             <div class="page-contents">

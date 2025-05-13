@@ -3,7 +3,6 @@ package controllers
 import (
 	"context"
 	"net/http"
-	"os"
 	"server/config"
 	"server/models"
 	"server/utils"
@@ -73,23 +72,15 @@ func RegisterUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error generating token"})
 		return
 	}
-	// set cookie
-
-	secure:=os.Getenv("MODE")=="production"
-	sameSite:=http.SameSiteLaxMode
-	if secure {
-		sameSite=http.SameSiteNoneMode
-	}
 
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name: "auth",
 		Value: token,
 		Path: "/",
-		Domain: os.Getenv("DOMAIN"),
 		Expires: time.Now().Add(24*time.Hour),
 		HttpOnly: true,
-		Secure: secure,
-		SameSite: sameSite,
+		Secure: true,
+		SameSite: http.SameSiteNoneMode,
 	})
 
 	// send token in response
@@ -131,22 +122,15 @@ func LoginUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error generating token"})
 		return
 	}
-	// set token in httpOnly cookie
-	secure:=os.Getenv("MODE")=="production"
-	sameSite:=http.SameSiteLaxMode
-	if secure {
-		sameSite=http.SameSiteNoneMode
-	}
 
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name: "auth",
 		Value: token,
 		Path: "/",
-		// Domain: os.Getenv("DOMAIN"),
 		Expires: time.Now().Add(24*time.Hour),
 		HttpOnly: true,
-		Secure: secure,
-		SameSite: sameSite,
+		Secure: true,
+		SameSite: http.SameSiteNoneMode,
 	})
 	
 	// send token in response
@@ -154,23 +138,15 @@ func LoginUser(c *gin.Context) {
 }
 
 func LogoutUser(c *gin.Context) {
-	// Replace your current cookie setting code with this:
-	secure:=os.Getenv("MODE")=="production"
-	sameSite:=http.SameSiteLaxMode
-	if secure {
-		sameSite=http.SameSiteNoneMode
-	}
-
 	http.SetCookie(c.Writer, &http.Cookie{
 		Name: "auth",
 		Value: "",
 		Path: "/",
-		Domain: os.Getenv("DOMAIN"),
 		Expires: time.Unix(0, 0),
 		MaxAge: -1,
 		HttpOnly: true,
-		Secure: secure,
-		SameSite: sameSite,
+		Secure: true,
+		SameSite: http.SameSiteNoneMode,
 	})
 
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully", "success": true})
