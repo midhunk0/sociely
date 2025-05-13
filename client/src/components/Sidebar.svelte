@@ -35,7 +35,7 @@
         { path: "/home", icon: "home" },
         { path: "/search", icon: "search" },
         { path: "/chat", icon: "messages" },
-        { path: "/saved", icon: "like" },
+        { path: "/profile", icon: "profile" },
     ]
 
     let positionMotion=(node: HTMLElement)=>{

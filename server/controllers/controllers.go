@@ -14,12 +14,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func getCookieSettings() (sameSite http.SameSite, secure bool) {
-	if os.Getenv("MODE")=="production" {
-		return http.SameSiteNoneMode, true
-	}
-	return http.SameSiteLaxMode, false
-}
 
 func Hello(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"Message": "Hello, go"})
@@ -100,7 +94,6 @@ func RegisterUser(c *gin.Context) {
 
 	// send token in response
 	c.JSON(http.StatusOK, gin.H{"message": "Registration successful", "token": token})
-
 }
 
 func LoginUser(c *gin.Context) {
@@ -207,22 +200,47 @@ func FetchUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
-func FetchUser(c *gin.Context) {
-	id:=c.Param("id")
-	userId, err:=primitive.ObjectIDFromHex(id)
-	if err!=nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid userId"})
-		return
-	}	
-	// define user variable
-	var user models.User
-	// fetch user from database
-	err=config.DB.Collection("users").FindOne(context.TODO(), bson.M{"_id": userId}).Decode(&user)
-	if err!=nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "User not found"})
+func FetchProfile(c *gin.Context) {
+	userIdStr, exists := c.Get("userId")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "User ID not found in context"})
 		return
 	}
+
+	userId, err := primitive.ObjectIDFromHex(userIdStr.(string))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID format"})
+		return
+	}
+
+	var user models.User
+	err = config.DB.Collection("users").FindOne(context.TODO(), bson.M{"_id": userId}).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
 	c.JSON(http.StatusOK, user)
+}
+
+func FetchUser(c *gin.Context) {
+	id:=c.Param("id")
+
+	userId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID format"})
+		return
+	}
+
+	var user models.User
+	err = config.DB.Collection("users").FindOne(context.TODO(), bson.M{"_id": userId}).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+
 }
 
 func UpdateUser(c *gin.Context) {

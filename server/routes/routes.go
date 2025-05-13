@@ -18,6 +18,7 @@ func Routes(router *gin.Engine){
 	protected.Use(middlewares.AuthMiddleware()) 
 	{
 		protected.GET("/fetchUsers", controllers.FetchUsers)
+		protected.GET("/fetchProfile", controllers.FetchProfile)
 		protected.GET("/fetchUser/:id", controllers.FetchUser)
 		protected.PUT("/updateUser/:id", controllers.UpdateUser)
 		protected.DELETE("/deleteUser/:id", controllers.DeleteUser)

@@ -6,33 +6,57 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 )
 
-// checks jwt in the request header
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// get token from authorization header
+		var tokenStr string
+
 		authHeader:=c.GetHeader("Authorization")
-		if authHeader=="" {
+		if authHeader!="" {
+			parts:=strings.Split(authHeader, " ")
+			if len(parts)==2 && parts[0]=="Bearer" {
+				tokenStr=parts[1]
+			}
+		}
+
+		if tokenStr=="" {
+			cookie, err:=c.Cookie("auth")
+			if err==nil {
+				tokenStr=cookie
+			}
+		}
+
+		if tokenStr=="" {
 			c.JSON(http.StatusUnauthorized, gin.H{"message": "Authorization token required"})
 			c.Abort()
 			return
 		}
-		// split bearer token
-		tokenString:=strings.Split(authHeader, " ")
-		if len(tokenString)!=2 || tokenString[0]!="Bearer" {
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid token format"})
-			c.Abort()
-			return
-		}
-		// validate jwt
-		token, err:=utils.ValidateJWT(tokenString[1])
+
+		token, err:=utils.ValidateJWT(tokenStr)
 		if err!=nil || !token.Valid {
 			c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid or expired token"})
 			c.Abort()
 			return
 		}
-		// allow access to route
+
+		claims, ok:=token.Claims.(jwt.MapClaims)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid token claims"})
+			c.Abort()
+			return
+		}
+
+		userId, ok:=claims["user_id"].(string)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "User ID not found in token"})
+			c.Abort()
+			return
+		}
+
+		c.Set("userId", userId)
 		c.Next()
 	}
 }
+

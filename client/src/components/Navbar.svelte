@@ -2,7 +2,7 @@
     import { Motion } from "svelte-motion";
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
+    import { onMount } from "svelte";
 
     let theme: string, hovered=false;
 
@@ -35,7 +35,7 @@
         { path: "/search", icon: "search" },
         { path: "/add", icon: "add" },
         { path: "/chat", icon: "messages" },
-        { path: "/saved", icon: "like" }
+        { path: "/profile", icon: "profile" }
     ]
 
     let positionMotion=(node: HTMLElement)=>{

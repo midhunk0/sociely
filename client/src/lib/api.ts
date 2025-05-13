@@ -40,3 +40,21 @@ export async function logoutUser() {
     });
     return response.json();
 };
+
+export async function fetchProfile() {
+    const response=await fetch(`${API_URL}/fetchProfile`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+    });
+    return response.json();
+}
+
+export async function fetchUser(userId: string) {
+    const response=await fetch(`${API_URL}/fetchUser/${userId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+    });
+    return response.json();
+}
