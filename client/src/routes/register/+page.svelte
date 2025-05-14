@@ -2,8 +2,9 @@
     import { registerUser } from "$lib/api";
     import Logo from "../../components/Logo.svelte";
     import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
 
-    let name="", username="", email="", password="", visible=false;
+    let name="", username="", email="", password="", visible=false, theme="";
 
     async function handleRegister(e: Event) {
         e.preventDefault();
@@ -14,6 +15,11 @@
             alert(result.message);
         }
     };
+
+    onMount(()=>{
+        theme=localStorage.getItem("theme") || "dark"
+    })
+
 </script>
 
 <div class="register-page">
@@ -37,7 +43,7 @@
             <div class="register-password">
                 <input type={visible ? "text" : "password"} id="password" bind:value={password} placeholder="Password" required>
                 <button type="button" on:click={()=>visible=!visible} class="eye">
-                    <img src={visible ? "/eye-white.png" : "eye-crossed-white.png"} alt="eye">
+                    <img src={visible ? theme==="light" ? "/eye.png" : "/eye-white.png" : theme==="light" ? "/eye-crossed.png" : "/eye-crossed-white.png"} alt="eye">
                 </button>
             </div>
         </div>
@@ -77,7 +83,7 @@
 
     input {
         padding: 16px;
-        background-color: var(--bg2);
+        background-color: var(--bg3);
         color: var(--text1);
         border: 1px solid var(--bg1);
         outline: none;
@@ -113,7 +119,7 @@
 
     .eye{
         position: absolute;
-        background-color: var(--bg2);
+        background-color: var(--bg3);
         display: flex;
         border: none;
         right: 16px;
@@ -150,7 +156,7 @@
     }
 
     .register-button:hover {
-        color: var(--text1);
+        color: var(--white);
         background-color: var(--orange);
     }
 

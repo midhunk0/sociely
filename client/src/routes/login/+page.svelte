@@ -2,8 +2,9 @@
     import { loginUser } from "$lib/api";
     import Logo from "../../components/Logo.svelte";
     import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
 
-    let credential="", password="", visible=false;
+    let credential="", password="", visible=false, theme="";
 
     async function handleLogin(e: Event) {
         e.preventDefault();
@@ -14,6 +15,11 @@
             alert(result.message);
         }
     };
+
+    onMount(()=>{
+        theme=localStorage.getItem("theme") || "dark";
+    })
+
 </script>
 
 <div class="login-page">
@@ -29,7 +35,7 @@
             <div class="login-password">
                 <input type={visible ? "text" : "password"} id="password" bind:value={password} placeholder="Password" required>
                 <button type="button" on:click={()=>visible=!visible} class="eye">
-                    <img src={visible ? "/eye-white.png" : "eye-crossed-white.png"} alt="eye">
+                    <img src={visible ? theme==="light" ? "/eye.png" : "/eye-white.png" : theme==="light" ? "/eye-crossed.png" : "/eye-crossed-white.png"} alt="eye">
                 </button>
             </div>
         </div>
@@ -148,7 +154,7 @@
     }
 
     .login-button:hover{
-        color: var(--text1);
+        color: var(--white);
         background-color: var(--orange);
     }
 

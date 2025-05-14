@@ -22,8 +22,8 @@ async function register(req, res){
         res.cookie("auth", 
             token, { 
                 httpOnly: true, 
-                secure: process.env.MODE==="production", 
-                sameSite: process.env.MODE==="production" ? "None" : "Lax" 
+                secure: true,
+                sameSite: "none"
             }
         );
         return res.status(200).json({ message: "User register successful", token });
@@ -51,8 +51,8 @@ async function login(req, res){
         res.cookie("auth", 
             token, { 
                 httpOnly: true, 
-                secure: process.env.MODE==="production", 
-                sameSite: process.env.MODE==="production" ? "None" : "Lax" 
+                secure: true,
+                sameSite: "none"
             }
         );
         return res.status(200).json({ message: "User login successful", token });
@@ -62,13 +62,14 @@ async function login(req, res){
     }
 }
 
-async function logout(req, res){
+async function logout(_, res){
     try{
         res.cookie("auth", 
             "", { 
                 httpOnly: true,
-                secure: process.env.MODE==="production",
-                sameSite: process.env.MODE==="production" ? "None" : "Lax"
+                secure: true,
+                sameSite: "strict",
+                expires: new Date(0)
             }
         );
         return res.status(200).json({ message: "Logout successful" });
