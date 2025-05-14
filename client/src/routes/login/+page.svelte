@@ -69,7 +69,7 @@
 
     input {
         padding: 16px;
-        background-color: var(--bg2);
+        background-color: var(--bg3);
         color: var(--text1);
         border: 1px solid var(--bg1);
         outline: none;
@@ -110,7 +110,7 @@
     }
 
     .eye{
-        background-color: var(--bg2);
+        background-color: var(--bg3);
         border: none;
         display: flex;
         position: absolute;

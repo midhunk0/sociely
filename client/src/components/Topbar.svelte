@@ -9,8 +9,8 @@
         const isActive=currentPath===item.path;
         const hovered=hover;
 
-        if(isActive && hovered) return `/${item.icon}-active-hover.png`;
-        if(isActive) return `/${item.icon}-active-hover.png`;
+        if(isActive && hovered) return `/${item.icon}-active.png`;
+        if(isActive) return `/${item.icon}-active.png`;
         if(hovered) return `/${item.icon}.png`;
         return `/${item.icon}.png`;
     }

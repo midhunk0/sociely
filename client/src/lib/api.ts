@@ -13,7 +13,7 @@ interface LoginData {
 }
 
 export async function registerUser(registerData: RegisterData) {
-    const response=await fetch(`${API_URL}/registerUser`, {
+    const response=await fetch(`${API_URL}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -23,7 +23,7 @@ export async function registerUser(registerData: RegisterData) {
 };
 
 export async function loginUser(loginData: LoginData) {
-    const response=await fetch(`${API_URL}/loginUser`, {
+    const response=await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -33,8 +33,8 @@ export async function loginUser(loginData: LoginData) {
 };
 
 export async function logoutUser() {
-    const response=await fetch(`${API_URL}/logoutUser`, {
-        method: "POST",
+    const response=await fetch(`${API_URL}/logout`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include"
     });

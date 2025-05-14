@@ -5,7 +5,7 @@
     
     async function handleLogout() {
         const result=await logoutUser();
-        if(result.success) {
+        if(result) {
             goto("/login");
         } else {
             alert(result.message);

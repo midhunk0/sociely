@@ -7,7 +7,7 @@
     async function handleFetchProfile(){
         const result=await fetchProfile();
         if(result){    
-            user=result;
+            user=result.user;
         } 
         else{
             console.log(result.message);
