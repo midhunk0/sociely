@@ -5,19 +5,34 @@ import "./Sidebar.css";
 interface SidebarItem{
     path: string;
     icon: string;
-}
+};
+
+interface IndicatorProps{
+    top: number,
+    width: number,
+    opacity: number
+};
+
+type Part="middle" | "bottom";
 
 export default function Sidebar(){
     const navigate=useNavigate();
     const location=useLocation();
 
-    const [theme, setTheme]=useState("dark");
-    const [hoveredItem, setHoveredItem]=useState("");
-    const [indicatorStyle, setIndicatorStyle]=useState({ 
-        top: 0, 
-        width: 0, 
-        opacity: 0 
+    const [theme, setTheme]=useState<string>("dark");
+    const [hoveredItem, setHoveredItem]=useState<string>("");
+    const [indicatorProps, setInticatorProps]=useState<Record<Part, IndicatorProps>>({
+        middle: { top: 0, width: 0, opacity: 0 },
+        bottom: { top: 0, width: 0, opacity: 0 },
     });
+
+    const sidebarItems: SidebarItem[]=[
+        { path: "/add", icon: "add" },
+        { path: "/home", icon: "home" },
+        { path: "/search", icon: "search" },
+        { path: "/chat", icon: "messages" },
+        { path: "/profile", icon: "profile" },
+    ];
 
     useEffect(()=>{
         const savedTheme=localStorage.getItem("theme") || "dark";
@@ -35,30 +50,48 @@ export default function Sidebar(){
         localStorage.setItem("theme", newTheme);
     };
 
-    const sidebarItems: SidebarItem[]=[
-        { path: "/add", icon: "add" },
-        { path: "/home", icon: "home" },
-        { path: "/search", icon: "search" },
-        { path: "/chat", icon: "messages" },
-        { path: "/profile", icon: "profile" },
-    ];
-
-    const handleMouseEnter=(e: React.MouseEvent<HTMLButtonElement>)=>{
+    const handleMouseEnter=(e: React.MouseEvent<HTMLButtonElement>, part: "middle" | "bottom", icon: string)=>{
         const rect=e.currentTarget.getBoundingClientRect();
         const offsetTop=e.currentTarget.offsetTop;
-        setIndicatorStyle({ 
-            top: offsetTop, 
-            width: rect.width, 
-            opacity: 1 
-        });
+        setInticatorProps((prev)=>({
+            ...prev,
+            [part]: {
+                top: offsetTop,
+                width: rect.width,
+                opacity: 1
+            }
+        }));
+
+        setHoveredItem(icon);
     };
+
+    const handleMouseLeave=(part: "middle" | "bottom")=>{
+        setInticatorProps((prev)=>({
+            ...prev,
+            [part]: {
+                ...prev[part],
+                opacity: 0
+            }
+        }));
+
+        setHoveredItem("");
+    }
 
     const getIconSrc=(item: SidebarItem)=>{
         const isActive=location.pathname===item.path;
-
-        if(isActive) return `/${item.icon}-active.png`;
-        return `/${item.icon}.png`;
+        return isActive || hoveredItem===item.icon ? `/${item.icon}-active.png` : `/${item.icon}.png`;
     };
+
+    const renderIndicator=(part: Part)=>(
+        <div
+            className="sidebar-indicator"
+            style={{
+                top: indicatorProps[part].top,
+                width: indicatorProps[part].width,
+                opacity: indicatorProps[part].opacity
+            }}
+        />
+    )
 
     return(
         <nav className="sidebar">
@@ -66,58 +99,45 @@ export default function Sidebar(){
                 <img src="/logo.png" alt="logo" className="icon"/>
             </button>
 
-            <ul className="sidebar-buttons" onMouseLeave={()=>setIndicatorStyle({ ...indicatorStyle, opacity: 0 })}>
+            <div className="sidebar-buttons">
                 {sidebarItems.map((item, index)=>(
-                    <li key={index}>
-                        <button
-                            className="sidebar-button"
-                            onClick={()=>navigate(item.path)}
-                            onMouseEnter={(e)=>{
-                                setHoveredItem(item.path);
-                                handleMouseEnter(e);
-                            }}
-                            onMouseLeave={()=>setHoveredItem("")}
-                        >
-                            <img src={getIconSrc(item)} alt={item.icon} className="icon"/>
-                            {hoveredItem===item.path && <p className="sidebar-tooltip">{item.icon}</p>}
-                        </button>
-                    </li>
+                    <button
+                        key={index}
+                        className="sidebar-button"
+                        onClick={()=>navigate(item.path)}
+                        onMouseEnter={(e)=>{ handleMouseEnter(e, "middle", item.icon) }}
+                        onMouseLeave={()=>{ handleMouseLeave("middle") }}
+                    >
+                        <img src={getIconSrc(item)} alt={item.icon} className="icon"/>
+                        {hoveredItem===item.icon && <p className="sidebar-tooltip">{item.icon}</p>}
+                    </button>
                 ))}
 
-                <li>
-                    <button
-                        onClick={toggleTheme}
-                        className="sidebar-button"
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={()=>setHoveredItem("")}
-                    >
-                        <img
-                            src={hoveredItem==="theme" ? `/${theme}-active.png` : `/${theme}.png`}
-                            alt="theme"
-                            className="icon"
-                        />
-                    </button>
-                </li>
+                {renderIndicator("middle")}
+            </div>
 
-                <li
-                    className="sidebar-indicator"
-                    style={{
-                        top: indicatorStyle.top,
-                        width: indicatorStyle.width,
-                        opacity: indicatorStyle.opacity
-                    }}
-                ></li>
-            </ul>
+            <div className="sidebar-buttons">
+                <button
+                    onClick={toggleTheme}
+                    className="sidebar-button"
+                    onMouseEnter={(e)=>{ handleMouseEnter(e, "bottom", "theme") }}
+                    onMouseLeave={()=>{ handleMouseLeave("bottom") }}
+                >
+                    <img src={hoveredItem==="theme" ? `/${theme}-active.png` : `/${theme}.png`} alt="theme" className="icon"/>
+                </button>
 
-            <button
-                className="sidebar-settings"
-                onMouseEnter={()=>setHoveredItem("settings")}
-                onMouseLeave={()=>setHoveredItem("")}
-                onClick={()=>navigate("/settings")}
-            >
-                <img src={getIconSrc({ path: "/settings", icon: "settings" })} alt="settings" className="icon"/>
-                {hoveredItem==="settings" && <p className="sidebar-tooltip">settings</p>}
-            </button>
+                <button
+                    className="sidebar-button"
+                    onClick={()=>navigate("/settings")}
+                    onMouseEnter={(e)=>{ handleMouseEnter(e, "bottom", "settings") }}
+                    onMouseLeave={()=>{ handleMouseLeave("bottom") }}
+                >
+                    <img src={getIconSrc({ path: "/settings", icon: "settings" })} alt="settings" className="icon"/>
+                    {hoveredItem==="settings" && <p className="sidebar-tooltip">settings</p>}
+                </button>
+
+                {renderIndicator("bottom")}
+            </div>
         </nav>
     );
 }

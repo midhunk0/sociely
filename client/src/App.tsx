@@ -9,6 +9,7 @@ import Chat from "./pages/dashboard/chat/Chat";
 import Settings from "./pages/dashboard/settings/Settings";
 import Profile from "./pages/dashboard/profile/Profile";
 import Add from "./pages/dashboard/add/Add";
+import { PrivateRoute } from "./global/PrivateRoute";
 
 function App(){
     return(
@@ -16,7 +17,11 @@ function App(){
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
-                <Route path="/" element={<Dashboard/>}>
+                <Route path="/" element={
+                    <PrivateRoute>
+                        <Dashboard/>
+                    </PrivateRoute>
+                }>
                     <Route path="add" element={<Add/>}/>
                     <Route path="home" element={<Home/>}/>
                     <Route path="search" element={<Search/>}/>

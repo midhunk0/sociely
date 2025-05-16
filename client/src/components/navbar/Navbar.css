@@ -1,8 +1,6 @@
 .navbar{
     display: flex;
     justify-content: center;
-    position: relative;
-    padding: 0;
 }
 
 .navbar-buttons{
@@ -10,9 +8,7 @@
     border-radius: 32px;
     background-color: var(--bg2);
     border: 2px solid var(--bg3);
-    list-style: none;
     gap: 8px;
-    position: relative;
 }
 
 .navbar-button{
@@ -27,8 +23,6 @@
 
 .navbar-button img{
     z-index: 1;
-    width: 24px;
-    height: 24px;
 }
 
 .navbar-tooltip{
@@ -41,8 +35,6 @@
     border-radius: 24px;
     color: var(--white);
     text-transform: capitalize;
-    white-space: nowrap;
-    font-size: 14px;
 }
 
 .navbar-indicator{

@@ -1,42 +1,30 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-// import { motion } from "framer-motion";
+import React, { useState } from "react";
 import "./Navbar.css";
 
-interface SidebarItem{
+interface NavbarItem{
     path: string;
     icon: string;
-}
+};
+
+interface IndicatorProps{
+    left: number,
+    width: number,
+    opacity: number
+};
 
 export default function Navbar(){
     const navigate=useNavigate();
     const location=useLocation();
 
-    const [theme, setTheme]=useState("dark");
-    const [hoveredItem, setHoveredItem]=useState("");
-    const [indicatorStyle, setIndicatorStyle]=useState({
+    const [hoveredItem, setHoveredItem]=useState<string>("");
+    const [indicatorStyle, setIndicatorStyle]=useState<IndicatorProps>({
         left: 0,
         width: 0,
         opacity: 0,
     });
 
-    useEffect(()=>{
-        const savedTheme=localStorage.getItem("theme") || "dark";
-        setSavedTheme(savedTheme);
-    }, []);
-
-    const toggleTheme=()=>{
-        const newTheme=theme==="dark" ? "light" : "dark";
-        setSavedTheme(newTheme);
-    };
-
-    const setSavedTheme=(newTheme: string)=>{
-        setTheme(newTheme);
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-    };
-
-    const sidebarItems: SidebarItem[]=[
+    const navbarItems: NavbarItem[]=[
         { path: "/home", icon: "home" },
         { path: "/search", icon: "search" },
         { path: "/add", icon: "add" },
@@ -44,7 +32,7 @@ export default function Navbar(){
         { path: "/profile", icon: "profile" },
     ];
 
-    const handleMouseEnter=(e: React.MouseEvent<HTMLButtonElement>)=>{
+    const handleMouseEnter=(e: React.MouseEvent<HTMLButtonElement>, icon: string)=>{
         const rect=e.currentTarget.getBoundingClientRect();
         const offsetLeft=e.currentTarget.offsetLeft
         setIndicatorStyle({
@@ -52,51 +40,41 @@ export default function Navbar(){
             width: rect.width,
             opacity: 1,
         });
+
+        setHoveredItem(icon);
     };
 
-    const getIconSrc=(item: SidebarItem)=>{
-        const isActive=location.pathname===item.path;
+    const handleMouseLeave=()=>{
+        setIndicatorStyle({
+            ...indicatorStyle,
+            opacity: 0
+        });
 
-        if(isActive) return `/${item.icon}-active.png`;
-        return `/${item.icon}.png`;
+        setHoveredItem("");
+    };
+
+    const getIconSrc=(item: NavbarItem)=>{
+        const isActive=location.pathname===item.path;
+        return isActive || hoveredItem===item.icon ? `/${item.icon}-active.png`: `/${item.icon}.png`;
     };
 
     return(
         <nav className="navbar">
-            <ul className="navbar-buttons" onMouseLeave={()=>setIndicatorStyle({ ...indicatorStyle, opacity: 0 })}>
-                {sidebarItems.map((item, index)=>(
-                    <li key={index}>
-                        <button
-                            className="navbar-button"
-                            onClick={()=>navigate(item.path)}
-                            onMouseEnter={(e)=>{
-                                setHoveredItem(item.path)
-                                handleMouseEnter(e); 
-                            }}
-                            onMouseLeave={()=>setHoveredItem("")}
-                        >
-                            <img src={getIconSrc(item)} alt={item.icon} className="icon"/>
-                            {hoveredItem===item.path && <p className="navbar-tooltip">{item.icon}</p>}
-                        </button>
-                    </li>
+            <div className="navbar-buttons">
+                {navbarItems.map((item, index)=>(
+                    <button
+                        key={index}
+                        className="navbar-button"
+                        onClick={()=>navigate(item.path)}
+                        onMouseEnter={(e)=> handleMouseEnter(e, item.icon) }
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        <img src={getIconSrc(item)} alt={item.icon} className="icon"/>
+                        {hoveredItem===item.icon && <p className="navbar-tooltip">{item.icon}</p>}
+                    </button>
                 ))}
 
-                <li>
-                    <button
-                        onClick={toggleTheme}
-                        className="navbar-button"
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={()=>setHoveredItem("")}
-                    >
-                        <img
-                            src={hoveredItem==="theme" ? `/${theme}-active.png` : `/${theme}.png`}
-                            alt="theme"
-                            className="icon"
-                        />
-                    </button>
-                </li>
-
-                <li
+                <div
                     className="navbar-indicator"
                     style={{
                         left: indicatorStyle.left,
@@ -104,7 +82,7 @@ export default function Navbar(){
                         opacity: indicatorStyle.opacity,
                     }}
                 />
-            </ul>
+            </div>
         </nav>
     );
 }
