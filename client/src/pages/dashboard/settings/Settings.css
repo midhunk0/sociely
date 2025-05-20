@@ -1,0 +1,23 @@
+.settings{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 50%;
+}
+
+.settings-button{
+    width: fit-content;
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: var(--text1);
+    color: var(--bg1);
+}
+
+.logout:hover{
+    background-color: var(--orange);
+    color: var(--white);
+}

@@ -11,7 +11,7 @@ interface registerDataType{
 }
 
 export default function Register(){
-    const API_URL=import.meta.env.VITE_API_URL;
+    const API_URL=import.meta.env.VITE_APP_API_URL;
     const navigate=useNavigate();
 
     const [registerData, setRegisterData]=useState<registerDataType>({
@@ -40,8 +40,8 @@ export default function Register(){
         try{
             const response=await fetch(`${API_URL}/register`, {
                 method: "POST",
-                body: JSON.stringify(registerData),
                 headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(registerData),
                 credentials: "include"
             });
             const result=await response.json();
