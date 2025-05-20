@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
 import "./Search.css";
-import { useNavigate } from "react-router-dom";
-
-interface UserType{
-    name?: string;
-    username?: string;
-    email?: string;
-    followers?: [];
-    followings?: [];
-    posts?: [];
-    _id?: string;
-}
+import UsersList from "../../../components/usersList/UsersList";
+import type { UserType } from "../../../types/types";
 
 export default function Search(){
-    const navigate=useNavigate();
     const apiUrl=import.meta.env.VITE_APP_API_URL;
     const [identifier, setIdentifier]=useState<string>("");
     const [users, setUsers]=useState<UserType[]>([]);
@@ -34,11 +24,9 @@ export default function Search(){
                 });
                 if(!response.ok){
                     setUsers([]);
-                    console.log("Some error");
-                    return;
+                    throw new Error("Failed to search user");
                 }
                 const result=await response.json();
-                console.log(result);
                 setUsers(result.users);
             }
             catch(error){
@@ -57,14 +45,7 @@ export default function Search(){
             {users && users.length===0 && identifier.trim() && (
                 <p>No users found</p>
             )}
-            {users && users.map((user, index)=>
-                user && user.username ? (
-                    <div key={index} className="search-user" onClick={()=>navigate(`/${user.username}`)}>
-                        <img src="./logo.png" alt="user"/>
-                        <p>{user.username}</p>
-                    </div> 
-                ) : null
-            )}
+            <UsersList users={users}/>
         </div>
     )
 }

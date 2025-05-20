@@ -1,16 +1,27 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import "./Profile.css";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../redux/store";
+import useFetch from "../../../hooks/useFetch";
+import UsersList from "../../../components/usersList/UsersList";
 
 export default function Profile(){
     const profile=useSelector((state: RootState)=>state.profile);
     const [activeTab, setActiveTab]=useState<string>("posts");
+    const { followers, fetchFollowers, followings, fetchFollowings }=useFetch();
+
+    useEffect(()=>{
+        if(profile._id){
+            fetchFollowers(profile._id);
+            fetchFollowings(profile._id);
+        }
+    }, [profile._id]);
 
     return(
         <div className="profile">
             <div className="profile-header">
-                <img src="/logo.png" alt="profile" className="profile-image"/>
+                <img src="/profile-active.png" alt="profile" className="profile-image"/>
                 <div className="profile-details">
                     <div className="profile-details-header">
                         <h1>{profile.username}</h1>
@@ -36,14 +47,14 @@ export default function Profile(){
                     <p>No followers</p> 
                 </div>
             : 
-                <p>Has followers</p>
+                <UsersList users={followers}/>
             )}
             {activeTab==="followings" && (profile.followings?.length===0 ? 
                 <div className="profile-empty">
                     <p>No followings</p> 
                 </div>
             : 
-                <p>Has followings</p>
+                <UsersList users={followings}/>
             )}
         </div>
     )

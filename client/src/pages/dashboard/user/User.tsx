@@ -4,60 +4,82 @@ import "./user.css";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../redux/store";
-
-interface userType{
-    name?: string;
-    username?: string;
-    email?: string;
-    followers?: string[];
-    followings?: string[];
-    posts?: string[];
-    _id?: string;
-}
+import useFetch from "../../../hooks/useFetch";
+import UsersList from "../../../components/usersList/UsersList";
+import type { UserRef, UserType } from "../../../types/types";
 
 export default function User(){
     const { username }=useParams();
     const apiUrl=import.meta.env.VITE_APP_API_URL;
     const profile=useSelector((state: RootState)=>state.profile);
-    const [user, setUser]=useState<userType>({});
+    const [user, setUser]=useState<UserType>();
     const [activeTab, setActiveTab]=useState<string>("posts");
     const [isFollowing, setIsFollowing]=useState<boolean>(false);
     const [isMe, setIsMe]=useState<boolean>(false);
+    const { followers, followings, fetchFollowers, fetchFollowings }=useFetch();
+
+    const fetchUser=async()=>{
+        try{
+            const response=await fetch(`${apiUrl}/fetchUser/${username}`, {
+                method: "GET",
+                credentials: "include"
+            });
+            if(!response.ok){
+                throw new Error("Failed to fetch user");
+            }
+            const result=await response.json();
+            setUser(result.user);
+            setIsFollowing(result.user.followers?.some((follower: UserRef)=>follower.userId===profile._id) || false);
+            setIsMe(profile.username===result.user.username);
+        }
+        catch(error){
+            console.log("Error while verifying user: ", error);
+        }
+    };
 
     useEffect(()=>{
-        const fetchUser=async()=>{
-            try{
-                const response=await fetch(`${apiUrl}/fetchUser/${username}`, {
-                    method: "GET",
-                    credentials: "include"
-                });
-                if(!response.ok){
-                    throw new Error("Failed to fetch user");
-                }
-                const result=await response.json();
-                console.log(result);
-                setUser(result.user);
-                setIsFollowing(profile.followings?.includes(result.user._id) ?? false);
-                setIsMe(profile.username===user.username);
-            }
-            catch(error){
-                console.log("Error while verifying user: ", error);
-            }
-        };
-
         fetchUser();
     }, [apiUrl, username, profile]);
 
+    useEffect(()=>{
+        if(user && user._id){
+            fetchFollowers(user._id);
+            fetchFollowings(user._id);
+        }
+    }, [user]);
+
+    async function toggleFollowUser(userId: string){
+        try{
+            const response=await fetch(`${apiUrl}/toggleFollowUser/${userId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include"
+            });
+            if(!response.ok){
+                throw new Error("Failed to follow user");
+            }
+            const result=await response.json();
+            console.log(result.message);
+            await fetchUser();
+        }
+        catch(error){
+            console.log("Error while following user: ", error);
+        }
+    }
+
+    if(!user){
+        return;
+    }
 
     return(
         <div className="user">
             <div className="user-header">
-                <img src="/logo.png" alt="user" className="user-image"/>
+                <img src="/profile-active.png" alt="user" className="user-image"/>
                 <div className="user-details">
                     <div className="user-details-header">
                         <h1>{user.username}</h1>
                         {!isMe && 
-                            <button className="user-edit-button">
+                            <button className="user-edit-button" onClick={()=>toggleFollowUser(user._id || "")}>
                                 {isFollowing ? "Unfollow" : "Follow"} user
                             </button>
                         }
@@ -82,14 +104,14 @@ export default function User(){
                     <p>No followers</p> 
                 </div>
             : 
-                <p>Has followers</p>
+                <UsersList users={followers}/>
             )}
             {activeTab==="followings" && (user.followings?.length===0 ? 
                 <div className="user-empty">
                     <p>No followings</p> 
                 </div>
             : 
-                <p>Has followings</p>
+                <UsersList users={followings}/>
             )}
         </div>
     )

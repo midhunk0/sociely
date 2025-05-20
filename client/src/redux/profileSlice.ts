@@ -1,22 +1,13 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { UserType } from "../types/types";
 
-interface ProfileState{
-    name?: string;
-    username?: string;
-    email?: string;
-    followers?: string[];
-    followings?: string[];
-    posts?: string[];
-    _id?: string;
-}
-
-const initialState: ProfileState={};
+const initialState: UserType={};
 
 export const profileSlice=createSlice({
     name: "profile",
     initialState,
     reducers: {
-        setProfile: (state, action: PayloadAction<ProfileState>)=>{
+        setProfile: (state, action: PayloadAction<UserType>)=>{
             return {
                 ...state,
                 ...action.payload

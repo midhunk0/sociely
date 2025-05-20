@@ -99,7 +99,12 @@ async function searchUser(req, res){
         if(!identifier){
             return res.status(400).json({ message: "Username or name is required" });
         }
-        const users=await User.find({ $or: [{ username: identifier }, { name: identifier }] }).select("-password");
+        const users=await User.find({ 
+            $or: [
+                { username: { $regex: identifier, $options: "i" }}, 
+                { name: { $regex: identifier, $options: "i" }}
+            ] 
+        }).select("-password");
         if(!users || users.length===0){
             return res.status(400).json({ message: "User not found", users: [] });
         }
@@ -127,6 +132,75 @@ async function fetchUser(req, res){
     }
 }
 
+async function toggleFollowUser(req, res){
+    try{
+        const { userId }=req.params;
+        if(!userId){
+            return res.status(400).json({ message: "UserId is required" });
+        }
+        const user=await User.findById(userId).select("-password");
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const profileUserId=req.user.userId;
+        const profileUser=await User.findById(profileUserId).select("-password");
+        if(!profileUser){
+            return res.status(400).json({ message: "Profile user not found" });
+        }
+        const isFollowing=profileUser.followings.find(user=>user.userId.toString()===userId);
+        if(isFollowing){
+            profileUser.followings.pull({ userId });
+            user.followers.pull({ userId: profileUserId });
+        }
+        else{
+            profileUser.followings.push({ userId });
+            user.followers.push({ userId: profileUserId });
+        }
+        await profileUser.save();
+        await user.save();
+        return res.status(200).json({ message: isFollowing ? "Unfollowed user" : "Followed user" });
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+async function fetchFollowers(req, res){
+    try{
+        const { userId }=req.params;
+        const user=await User.findById(userId).populate({
+            path: "followers.userId",
+            select: "username name _id"
+        });
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const followers=user.followers.map(follower=>follower.userId);
+        return res.status(200).json({ followers });
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+async function fetchFollowings(req, res){
+    try{
+        const { userId }=req.params;
+        const user=await User.findById(userId).populate({
+            path: "followings.userId",
+            select: "username name _id"
+        });
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const followings=user.followings.map(following=>following.userId);
+        return res.status(200).json({ followings });
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 module.exports={
     register,
     login,
@@ -134,4 +208,7 @@ module.exports={
     fetchProfile,
     searchUser,
     fetchUser,
+    toggleFollowUser,
+    fetchFollowers,
+    fetchFollowings
 }
