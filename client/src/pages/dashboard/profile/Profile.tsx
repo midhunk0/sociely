@@ -5,10 +5,13 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../../redux/store";
 import useFetch from "../../../hooks/useFetch";
 import UsersList from "../../../components/usersList/UsersList";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile(){
+    const navigate=useNavigate();
     const profile=useSelector((state: RootState)=>state.profile);
     const [activeTab, setActiveTab]=useState<string>("posts");
+    const [hover, setHover]=useState<boolean>(false);
     const { followers, fetchFollowers, followings, fetchFollowings }=useFetch();
 
     useEffect(()=>{
@@ -25,7 +28,9 @@ export default function Profile(){
                 <div className="profile-details">
                     <div className="profile-details-header">
                         <h1>{profile.username}</h1>
-                        <button className="profile-edit-button">Edit profile</button>
+                        <button className="profile-edit-button" onClick={()=>navigate("/profile/update")} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
+                            <img src={hover ? "./edit-active.png" : "./edit.png"} alt="edit" className="icon"/>
+                        </button>
                     </div>
                     <p>{profile.name}</p>
                     <div className="profile-user-details">
@@ -35,6 +40,7 @@ export default function Profile(){
                     </div>
                 </div>
             </div>
+            <hr/>
             {activeTab==="posts" && (profile.posts?.length===0 ? 
                 <div className="profile-empty">
                     <p>No posts</p> 

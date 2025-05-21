@@ -2,19 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../../components/logo/Logo";
-
-interface registerDataType{
-    name: string,
-    username: string,
-    email: string,
-    password: string
-}
+import type { RegisterDataType } from "../../../types/types";
 
 export default function Register(){
-    const API_URL=import.meta.env.VITE_APP_API_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     const navigate=useNavigate();
 
-    const [registerData, setRegisterData]=useState<registerDataType>({
+    const [registerData, setRegisterData]=useState<RegisterDataType>({
         name: "",
         username: "",
         email: "",
@@ -38,7 +32,7 @@ export default function Register(){
     async function registerUser(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         try{
-            const response=await fetch(`${API_URL}/register`, {
+            const response=await fetch(`${apiUrl}/registerUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(registerData),
@@ -46,7 +40,7 @@ export default function Register(){
             });
             const result=await response.json();
             if(response.ok){
-                navigate("/home");
+                navigate("/verification", { state: { email: result.email } });
             }
             console.log(result.message);
         }

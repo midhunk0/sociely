@@ -1,36 +1,17 @@
-.register-page{
+.update-form{
     display: flex;
-    height: 100vh;
-    padding: 8px;
-    gap: 8px;
-    background-color: var(--bg1);
-    color: var(--text1);
-}
-
-.register-page img{
-    width: calc(50% - 4px);
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.register-form{
-    display: flex;
-    justify-content: center;
     flex-direction: column;
-    padding: 16px 10%;
     width: 50%;
-    height: 100%;
     gap: 16px;
-    border-radius: 8px;
 }
 
-.register-input{
+.update-input{
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.register-input input{
+.update-input input{
     padding: 16px;
     background-color: var(--bg3);
     color: var(--text1);
@@ -40,11 +21,11 @@
     border-radius: 8px;
 }
 
-.register-input input:focus{
+.update-input input:focus{
     border: 1px solid var(--orange);
 }
 
-.register-password{
+.update-password{
     display: flex;
     align-items: center;
     width: 100%;
@@ -53,20 +34,20 @@
     border-radius: 8px;
 }
 
-.register-password:focus-within{
+.update-password:focus-within{
     border: 1px solid var(--orange);
 }
 
-.register-password input{
+.update-password input{
     border: none;
     width: 100%;
 }
 
-.register-password input:focus{
+.update-password input:focus{
     border: none;
 }
 
-.register-password button{
+.update-password button{
     position: absolute;
     background-color: var(--bg3);
     display: flex;
@@ -75,12 +56,12 @@
     cursor: pointer;
 }
 
-.register-password button img{
+.update-password button img{
     width: 24px;
     height: 24px;
 }
 
-.register-button{
+.update-button{
     padding: 16px;
     font-size: 16px;
     background-color: var(--text1);
@@ -91,44 +72,19 @@
     border-radius: 8px;
 }
 
-.register-button:hover{
+.update-button:hover{
     color: var(--white);
     background-color: var(--orange);
 }
 
-.register-form p{
-    margin: 0 auto;
-}
-
-.register-form a{
-    text-decoration: underline;
-    color: var(--text1);
-}
-
-.register-form a:hover{
-    color: var(--orange);
-}
-
 @media(max-width: 1080px){
-    .register-form{
-        padding: 16px;
+    .update-form{
+        width: 70%;
     }
 }
 
-@media(max-width: 600px){
-    .register-page img{
-        display: none;
-    }
-
-    .register-form{
+@media(max-width: 720px){
+    .update-form{
         width: 100%;
-    }
-}
-
-@media(max-width: 400px){
-    .register-page{
-        margin: 0;
-        border: none;
-        height: 100vh;
     }
 }

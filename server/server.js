@@ -5,6 +5,7 @@ const cors=require("cors");
 const router=require("./routes/route");
 const dotenv=require("dotenv").config();
 const cookieParser=require("cookie-parser");
+const multer=require("multer");
 
 const port=8000;
 const app=express();

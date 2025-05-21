@@ -15,6 +15,7 @@ export default function User(){
     const [user, setUser]=useState<UserType>();
     const [activeTab, setActiveTab]=useState<string>("posts");
     const [isFollowing, setIsFollowing]=useState<boolean>(false);
+    const [hover, setHover]=useState<boolean>(false);
     const [isMe, setIsMe]=useState<boolean>(false);
     const { followers, followings, fetchFollowers, fetchFollowings }=useFetch();
 
@@ -79,8 +80,11 @@ export default function User(){
                     <div className="user-details-header">
                         <h1>{user.username}</h1>
                         {!isMe && 
-                            <button className="user-edit-button" onClick={()=>toggleFollowUser(user._id || "")}>
-                                {isFollowing ? "Unfollow" : "Follow"} user
+                            <button className="user-toggle-follow-button" onClick={()=>toggleFollowUser(user._id || "")} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
+                                {isFollowing 
+                                    ? <img src={hover ? "./unfollow-active.png" : "./unfollow.png"} alt="unfollow" className="icon"/> 
+                                    : <img src={hover ? "./follow-active.png" : "./follow.png"} alt="follow" className="icon"/>
+                                }
                             </button>
                         }
                     </div>
@@ -92,6 +96,7 @@ export default function User(){
                     </div>
                 </div>
             </div>
+            <hr/>
             {activeTab==="posts" && (user.posts?.length===0 ? 
                 <div className="user-empty">
                     <p>No posts</p> 

@@ -17,7 +17,7 @@
     color: var(--bg1);
 }
 
-.logout:hover{
+.delete{
     background-color: var(--orange);
     color: var(--white);
 }

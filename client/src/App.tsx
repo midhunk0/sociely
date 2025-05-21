@@ -11,6 +11,8 @@ import Profile from "./pages/dashboard/profile/Profile";
 import Add from "./pages/dashboard/add/Add";
 import { PrivateRoute } from "./global/PrivateRoute";
 import User from "./pages/dashboard/user/User";
+import Verification from "./pages/auth/verification/Verification";
+import Update from "./pages/dashboard/profile/update/Update";
 
 function App(){
     return(
@@ -18,6 +20,7 @@ function App(){
             <Routes>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
+                <Route path="/verification" element={<Verification/>}/>
                 <Route path="/" element={
                     <PrivateRoute>
                         <Dashboard/>
@@ -30,6 +33,7 @@ function App(){
                     <Route path="chat" element={<Chat/>}/>
                     <Route path="settings" element={<Settings/>}/>
                     <Route path="profile" element={<Profile/>}/>
+                    <Route path="profile/update" element={<Update/>}/>
                     <Route path=":username" element={<User/>}/>
                 </Route>
             </Routes>

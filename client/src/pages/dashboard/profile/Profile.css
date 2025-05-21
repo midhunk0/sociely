@@ -1,8 +1,12 @@
 .profile{
-    width: 50%;
     display: flex;
     flex-direction: column;
+    width: 50%;
     gap: 16px;
+}
+
+.profile hr{
+    border: 1px solid var(--bg3);
 }
 
 .profile-header{
@@ -16,6 +20,7 @@
     border-radius: 50%;
     background-color: var(--white);
     border: 2px solid var(--bg3);
+    object-fit: cover;
 }
 
 .profile-details{
@@ -32,26 +37,22 @@
 }
 
 .profile-edit-button{
-    width: fit-content;
-    padding: 8px 16px;
-    font-size: 16px;
-    height: fit-content;
-    border-radius: 8px;
-    border: none;
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--bg3);
     outline: none;
     cursor: pointer;
-    background-color: var(--text1);
-    color: var(--bg1);
+    background-color: var(--bg2);
 }
 
 .profile-edit-button:hover{
-    background-color: var(--orange);
-    color: var(--white);
+    background-color: var(--text1);
 }
 
 .profile-user-details{
     display: flex;
-    width: 70%;
+    width: 100%;
     justify-content: space-between;
     margin-top: auto;
 }
@@ -64,5 +65,21 @@
     display: grid;
     place-content: center;
     height: 100%;
-    border-top: 2px solid var(--bg3);
+}
+
+@media(max-width: 1080px){
+    .profile{
+        width: 70%;
+    }
+
+    .profile-image{
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media(max-width: 720px){
+    .profile{
+        width: 100%;
+    }
 }

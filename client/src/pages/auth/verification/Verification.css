@@ -1,4 +1,4 @@
-.login-page{
+.verification{
     display: flex;
     height: 100vh;
     padding: 8px;
@@ -7,13 +7,13 @@
     color: var(--text1);
 }
 
-.login-banner{ 
+.verification-banner{ 
     width: calc(50% - 4px);
     object-fit: cover;
     border-radius: 8px;
 }
 
-.login-form{
+.verification-form{
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -24,17 +24,13 @@
     border-radius: 8px;
 }
 
-.login-form a{
-    margin-left: auto;
-}
-
-.login-input{
+.verification-input{
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.login-input input{
+.verification-input input{
     padding: 16px;
     background-color: var(--bg3);
     color: var(--text1);
@@ -44,47 +40,11 @@
     border-radius: 8px;
 }
 
-.login-input input:focus{
+.verification-input input:focus{
     border: 1px solid var(--orange);
 }
 
-.login-password{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    border: 1px solid var(--bg1);
-    border-radius: 8px;
-}
-
-.login-password:focus-within{
-    border: 1px solid var(--orange);
-}
-
-.login-password input{
-    border: none;
-    width: 100%;
-}
-
-.login-password input:focus{
-    border: none;
-}
-
-.login-password button{
-    background-color: var(--bg3);
-    border: none;
-    display: flex;
-    position: absolute;
-    cursor: pointer;
-    right: 16px;
-}
-
-.login-password button img{
-    width: 24px;
-    height: 24px;
-}
-
-.login-button{
+.verification-button{
     padding: 16px;
     font-size: 16px;
     background-color: var(--text1);
@@ -95,42 +55,57 @@
     border-radius: 8px;
 }
 
-.login-button:hover{
+.verification-button:hover{
     color: var(--white);
     background-color: var(--orange);
 }
 
-.login-form p{
-    margin: 0 auto;
-}
-
-.login-form a{
+.verification-form a{
+    margin-left: auto;
     text-decoration: underline;
     color: var(--text1);
 }
 
-.login-form a:hover{
+.verification-form a:hover{
     color: var(--orange);
 }
 
+.back-button{
+    display: flex;
+    top: 16px;
+    background-color: var(--bg1);
+    border: none;
+    outline: none;
+    width: fit-content;
+    justify-content: center;
+    /* justify-content: flex-start; */
+    cursor: pointer;
+    align-items: center;
+}
+
+/* .back-button img{
+    width: 24px;
+    height: 24px;
+} */
+
 @media(max-width: 1080px){
-    .login-form{
+    .verification-form{
         padding: 16px;
     }
 }
 
 @media(max-width: 600px){
-    .login-page img{
+    .verification img{
         display: none;
     }
     
-    .login-form{
+    .verification-form{
         width: 100%;
     }
 }
 
 @media(max-width: 400px){
-    .login-page{
+    .verification{
         margin: 0;
         border: none;
         height: 100vh;

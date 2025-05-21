@@ -25,7 +25,7 @@ const commentsSchema=new mongoose.Schema({
         }], 
         default: [] 
     }]
-}, { timestamps: true, _id: false });
+}, { timestamps: true});
 
 const postSchema=new mongoose.Schema({
     userId: { 
@@ -41,9 +41,10 @@ const postSchema=new mongoose.Schema({
         type: String, 
         required: true 
     },
-    image: { 
-        type: String, 
-        required: true 
+    postImage: { 
+        imageName: String,
+        imageType: String,
+        image: Buffer, 
     },
     likesCount: { 
         type: Number, 
@@ -77,6 +78,21 @@ const userSchema=new mongoose.Schema({
     password: { 
         type: String, 
         required: true 
+    },
+    profileImage: {
+        imageName: String,
+        imageType: String,
+        image: Buffer
+    },
+    verified:{
+        type: Boolean,
+        default: false
+    },
+    otp: {
+        type: String,
+    },
+    otpExpires: {
+        type: Date,
     },
     followers: { 
         type: [userRefSchema], 

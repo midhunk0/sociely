@@ -5,6 +5,10 @@
     gap: 16px;
 }
 
+.user hr{
+    border: 1px solid var(--bg3);
+}
+
 .user-header{
     display: flex;
     justify-content: space-between;
@@ -31,22 +35,18 @@
     align-items: center;
 }
 
-.user-edit-button{
-    width: fit-content;
-    padding: 8px 16px;
-    font-size: 16px;
-    height: fit-content;
-    border-radius: 8px;
-    border: none;
+.user-toggle-follow-button{
+    display: flex;
+    padding: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--bg3);
     outline: none;
     cursor: pointer;
-    background-color: var(--text1);
-    color: var(--bg1);
+    background-color: var(--bg2);
 }
 
-.user-edit-button:hover{
-    background-color: var(--orange);
-    color: var(--white);
+.user-toggle-follow-button:hover{
+    background-color: var(--text1);
 }
 
 .user-user-details{
@@ -64,5 +64,4 @@
     display: grid;
     place-content: center;
     height: 100%;
-    border-top: 2px solid var(--bg3);
 }
