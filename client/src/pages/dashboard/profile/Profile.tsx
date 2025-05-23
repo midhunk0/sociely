@@ -12,12 +12,13 @@ export default function Profile(){
     const profile=useSelector((state: RootState)=>state.profile);
     const [activeTab, setActiveTab]=useState<string>("posts");
     const [hover, setHover]=useState<boolean>(false);
-    const { followers, fetchFollowers, followings, fetchFollowings }=useFetch();
+    const { followers, fetchFollowers, followings, fetchFollowings, posts, fetchPosts }=useFetch();
 
     useEffect(()=>{
         if(profile._id){
             fetchFollowers(profile._id);
             fetchFollowings(profile._id);
+            fetchPosts(profile._id);
         }
     }, [profile._id]);
 
@@ -46,7 +47,17 @@ export default function Profile(){
                     <p>No posts</p> 
                 </div>
             : 
-                <p>Has posts</p>
+                <div className="posts">
+                    {posts.map((post)=>(
+                        <div key={post._id} className="post-div">
+                            <h2>{post.title}</h2>
+                            <p>{post.description}</p>
+                            {post.imageUrls.map((image, index)=>(
+                                <img key={index} src={image} alt="image" style={{ width: "500px", height: "300px" }}/>
+                            ))}
+                        </div>
+                    ))}
+                </div>
             )}
             {activeTab==="followers" && (profile.followers?.length===0 ? 
                 <div className="profile-empty">

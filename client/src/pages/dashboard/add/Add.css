@@ -1,0 +1,130 @@
+.add-post-form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 16px;
+    overflow: scroll;
+}
+
+.add-post-input{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.add-post-input input{
+    padding: 16px;
+    background-color: var(--bg3);
+    color: var(--text1);
+    border: 1px solid var(--bg1);
+    outline: none;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.add-post-input input[type="file"]{
+    display: none;
+}
+
+.add-post-label-input{
+    cursor: pointer;
+    padding: 16px;
+    background-color: var(--bg3);
+    color: var(--text1);
+    border: 1px solid var(--bg1);
+    outline: none;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.add-post-input input[type="file"]::file-selector-button{
+    visibility: hidden;
+    display: none;
+}
+
+.add-post-input input:focus{
+    border: 1px solid var(--orange);
+}
+
+.add-post-button{
+    padding: 16px;
+    font-size: 16px;
+    background-color: var(--text1);
+    color: var(--bg1);
+    border: 1px solid var(--bg1);
+    outline: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.add-post-button:hover{
+    color: var(--white);
+    background-color: var(--orange);
+}
+
+
+.add-post-images{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    scroll-padding: 0 ; 
+    scroll-behavior: smooth;
+    background: var(--bg2);
+    border-radius: 8px;
+    border: 2px solid var(--bg3);
+}
+
+.add-post-image{
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    scroll-snap-align: center; 
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+.add-post-image img{
+    width: 100%;
+    height: 100%;
+    /* object-fit: cover; */
+}
+
+.add-post-remove-image{
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    display: flex;
+    border-radius: 50%;
+    background-color: var(--bg2);
+    padding: 12px;
+    border: 2px solid var(--bg3);
+    cursor: pointer;
+}
+
+.add-post-remove-image:hover{
+    background-color: var(--text1);
+}
+
+.add-post-remove-image img{
+    width: 24px;
+    height: 24px;
+}
+
+@media(max-width: 1080px){
+    .add-post-form{
+        width: 70%;
+    }
+}
+
+@media(max-width: 720px){
+    .add-post-form{
+        width: 100%;
+    }
+}

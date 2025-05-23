@@ -41,11 +41,11 @@ const postSchema=new mongoose.Schema({
         type: String, 
         required: true 
     },
-    postImage: { 
+    postImages: [{ 
         imageName: String,
         imageType: String,
-        image: Buffer, 
-    },
+        image: Buffer,
+    }],
     likesCount: { 
         type: Number, 
         default: 0 
@@ -102,11 +102,12 @@ const userSchema=new mongoose.Schema({
         type: [userRefSchema], 
         default: [] 
     },
-    posts: { 
-        type: [postSchema], 
-        default: [] 
-    }
+    posts: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Post" 
+    }]
 }, { timestamps: true });
 
 const User=mongoose.model("User", userSchema);
-module.exports=User;
+const Post=mongoose.model("Post", postSchema);
+module.exports={ User, Post };

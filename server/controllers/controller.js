@@ -1,6 +1,6 @@
 const { hashPassword, generateToken, comparePassword } = require("../config/auth");
 const sendEmail = require("../config/mail");
-const User = require("../models/model");
+const { User, Post } = require("../models/model");
 
 const generateOTP=()=>{
     return Math.floor(100000+Math.random()*900000).toString();
@@ -366,7 +366,108 @@ async function fetchFollowings(req, res){
 }
 
 async function addPost(req, res){
+    const userId=req.user.userId;
+    const user=await User.findById(userId);
+    if(!user){
+        return res.status(400).json({ message: "User not found" });
+    }
+    const { title, description }=req.body;
+    if(!title){
+        return res.status(400).json({ message: "Title is required for the post" });
+    }
+    if(!description){
+        return res.status(400).json({ message: "Description is required for the post" });
+    }
+    let postImages;
+    if(Array.isArray(req.files)){
+        postImages=req.files.map((image)=>({
+            imageName: `${Date.now()}-${image.originalname}`,
+            imageType: image.mimetype,
+            image: image.buffer
+        }));
+    }
+    const post=new Post({
+        userId,
+        title,
+        description,
+        postImages
+    });
+    user.posts.push(post._id);
+    await user.save();
+    await post.save();
+    return res.status(200).json({ message: "Post added successfully" });
+}
 
+async function fetchImage(req, res){
+    try{
+        const { postId, imageIndex }=req.params;
+        console.log(postId, imageIndex);
+        const index=parseInt(imageIndex);
+        if(isNaN(index) || index<0){
+            return res.status(400).json({ message: "Invalid image index" });
+        }
+        const post=await Post.findById(postId);
+        if(!post){
+            return res.status(400).json({ message: "Post not found" });
+        }
+        const image=post.postImages[index];
+        if(!image){
+            return res.status(400).json({ message: "Image not found" });
+        }
+        res.set("Content-Type", image.imageType || "application/octet-stream");
+        return res.send(image.image);
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+async function fetchPost(req, res){
+    try{
+        const apiUrl=process.env.API_URL;
+        const { postId }=req.params;
+        const post=await Post.findById(postId);
+        if(!post){
+            return res.status(400).json({ message: "Post not found" });
+        }
+        const imageUrls=post.postImages.map((_, index)=>`${apiUrl}/fetchImage/${postId}/${index}`);
+        const { postImages, ...postData }=post.toObject();
+        const postWithImages={
+            ...postData,
+            imageUrls
+        }
+        return res.status(200).json({ message: "Post fetched successfully", posts: postWithImages });
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
+}
+
+async function fetchPosts(req, res){
+    try{
+        const apiUrl=process.env.API_URL;
+        const { userId }=req.params;
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const postsWithImages=await Promise.all(user.posts.map(async(post)=>{
+            const postWithDetails=await Post.findById(post._id);
+            if(!postWithDetails){
+                return res.status(400).json({ message: "Post not found" });
+            }
+            const imageUrls=postWithDetails.postImages.map((_, index)=>`${apiUrl}/fetchImage/${post._id}/${index}`);
+            const { postImages, ...postData }=postWithDetails.toObject();
+            return{
+                ...postData,
+                imageUrls
+            }
+        }));
+        return res.status(200).json({ message: "Posts fetched", posts: postsWithImages });
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
 }
 
 async function editPost(req, res){
@@ -432,6 +533,9 @@ module.exports={
     fetchFollowers,
     fetchFollowings,
     addPost,
+    fetchImage,
+    fetchPost,
+    fetchPosts,
     editPost,
     deletePost,
     toggleLike,

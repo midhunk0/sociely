@@ -38,3 +38,30 @@ export interface UpdateUserType{
     oldPassword?: string;
     newPassword?: string;
 }
+
+export interface PostType{
+    title: string;
+    description: string;
+}
+
+export interface CommentType{
+    _id: string;
+    userId: string;
+    comment: string;
+    replies: CommentType[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface FetchedPostType{
+    _id: string;
+    userId: string;
+    title: string;
+    description: string;
+    imageUrls: string[];
+    likesCount: number;
+    likes: UserRef[];
+    comments: CommentType[];
+    createdAt: string;
+    updatedAt: string;
+}
