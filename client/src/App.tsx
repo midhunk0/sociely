@@ -13,6 +13,7 @@ import { PrivateRoute } from "./global/PrivateRoute";
 import User from "./pages/dashboard/user/User";
 import Verification from "./pages/auth/verification/Verification";
 import Update from "./pages/dashboard/profile/update/Update";
+import Post from "./pages/dashboard/post/Post";
 
 function App(){
     return(
@@ -34,7 +35,8 @@ function App(){
                     <Route path="settings" element={<Settings/>}/>
                     <Route path="profile" element={<Profile/>}/>
                     <Route path="profile/update" element={<Update/>}/>
-                    <Route path=":username" element={<User/>}/>
+                    <Route path="user/:userId" element={<User/>}/>
+                    <Route path="post/:postId" element={<Post/>}/>
                 </Route>
             </Routes>
         </Router>

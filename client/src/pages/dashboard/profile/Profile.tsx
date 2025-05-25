@@ -6,6 +6,7 @@ import type { RootState } from "../../../redux/store";
 import useFetch from "../../../hooks/useFetch";
 import UsersList from "../../../components/usersList/UsersList";
 import { useNavigate } from "react-router-dom";
+import Posts from "../../../components/posts/Posts";
 
 export default function Profile(){
     const navigate=useNavigate();
@@ -47,17 +48,7 @@ export default function Profile(){
                     <p>No posts</p> 
                 </div>
             : 
-                <div className="posts">
-                    {posts.map((post)=>(
-                        <div key={post._id} className="post-div">
-                            <h2>{post.title}</h2>
-                            <p>{post.description}</p>
-                            {post.imageUrls.map((image, index)=>(
-                                <img key={index} src={image} alt="image" style={{ width: "500px", height: "300px" }}/>
-                            ))}
-                        </div>
-                    ))}
-                </div>
+                <Posts userPosts={posts}/>
             )}
             {activeTab==="followers" && (profile.followers?.length===0 ? 
                 <div className="profile-empty">

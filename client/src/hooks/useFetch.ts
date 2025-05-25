@@ -6,6 +6,7 @@ export default function useFetch(){
     const [followings, setFollowings]=useState<UserType[]>([]);
     const [followers, setFollowers]=useState<UserType[]>([]);
     const [posts, setPosts]=useState<FetchedPostType[]>([]);
+    const [post, setPost]=useState<FetchedPostType>();
 
     async function fetchFollowers(userId: string){
         try{
@@ -58,12 +59,29 @@ export default function useFetch(){
         }
     }
 
+    async function fetchPost(postId: string){
+        try{    
+            const response=await fetch(`${apiUrl}/fetchPost/${postId}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include"
+            });
+            const result=await response.json();
+            setPost(result.post);
+        }
+        catch(error){
+            console.log("Error while fetching post: ", error);
+        }
+    }
+
     return{
         followers,
         fetchFollowers,
         followings,
         fetchFollowings,
         posts,
-        fetchPosts
+        fetchPosts,
+        post,
+        fetchPost
     }
 }

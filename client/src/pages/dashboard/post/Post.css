@@ -1,0 +1,10 @@
+.post{
+    display: flex;
+    width: 100%;
+    background-color: var(--text1);
+    cursor: pointer;
+}
+.post img{
+    width: 100%;
+    padding: 4px;
+}

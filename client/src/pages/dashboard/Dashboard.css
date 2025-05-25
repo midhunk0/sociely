@@ -16,6 +16,7 @@
 	line-height: 1;
 	width: 100%;
 	border-radius: 32px;
+    overflow: scroll;
 }
     
 @media(max-width: 440px){

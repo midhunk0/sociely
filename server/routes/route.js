@@ -12,7 +12,7 @@ router.put("/logoutUser", logoutUser);
 router.put("/updateUser", upload.single("image"), authMiddleware, updateUser);
 router.get("/fetchProfile", authMiddleware, fetchProfile);
 router.post("/searchUser", authMiddleware, searchUser);
-router.get("/fetchUser/:username", authMiddleware, fetchUser);
+router.get("/fetchUser/:userId", authMiddleware, fetchUser);
 router.put("/toggleFollowUser/:userId", authMiddleware, toggleFollowUser);
 router.get("/fetchFollowers/:userId", authMiddleware, fetchFollowers);
 router.get("/fetchFollowings/:userId", authMiddleware, fetchFollowings);

@@ -8,7 +8,7 @@ export default function UsersList({ users }: { users: UserType[] }){
     return(
         users && users.map((user, index)=>
             user && user.username ? (
-                <div key={index} className="usersList-user" onClick={()=>navigate(`/${user.username}`)}>
+                <div key={index} className="usersList-user" onClick={()=>navigate(`/user/${user._id}`)}>
                     <img src="./profile-active.png" alt="user"/>
                     <p>{user.username}</p>
                 </div> 

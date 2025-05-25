@@ -9,7 +9,7 @@ import UsersList from "../../../components/usersList/UsersList";
 import type { UserRef, UserType } from "../../../types/types";
 
 export default function User(){
-    const { username }=useParams();
+    const { userId }=useParams();
     const apiUrl=import.meta.env.VITE_APP_API_URL;
     const profile=useSelector((state: RootState)=>state.profile);
     const [user, setUser]=useState<UserType>();
@@ -21,7 +21,7 @@ export default function User(){
 
     const fetchUser=async()=>{
         try{
-            const response=await fetch(`${apiUrl}/fetchUser/${username}`, {
+            const response=await fetch(`${apiUrl}/fetchUser/${userId}`, {
                 method: "GET",
                 credentials: "include"
             });
@@ -40,7 +40,7 @@ export default function User(){
 
     useEffect(()=>{
         fetchUser();
-    }, [apiUrl, username, profile]);
+    }, [apiUrl, userId, profile]);
 
     useEffect(()=>{
         if(user && user._id){
@@ -82,8 +82,8 @@ export default function User(){
                         {!isMe && 
                             <button className="user-toggle-follow-button" onClick={()=>toggleFollowUser(user._id || "")} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
                                 {isFollowing 
-                                    ? <img src={hover ? "./unfollow-active.png" : "./unfollow.png"} alt="unfollow" className="icon"/> 
-                                    : <img src={hover ? "./follow-active.png" : "./follow.png"} alt="follow" className="icon"/>
+                                    ? <img src={hover ? "/unfollow-active.png" : "/unfollow.png"} alt="unfollow" className="icon"/> 
+                                    : <img src={hover ? "/follow-active.png" : "/follow.png"} alt="follow" className="icon"/>
                                 }
                             </button>
                         }
