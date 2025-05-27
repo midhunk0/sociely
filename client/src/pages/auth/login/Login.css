@@ -3,7 +3,7 @@
     height: 100vh;
     padding: 8px;
     gap: 8px;
-    background-color: var(--bg1);
+    background-color: var(--bg2);
     color: var(--text1);
 }
 
@@ -28,78 +28,6 @@
     margin-left: auto;
 }
 
-.login-input{
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.login-input input{
-    padding: 16px;
-    background-color: var(--bg3);
-    color: var(--text1);
-    border: 1px solid var(--bg1);
-    outline: none;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
-.login-input input:focus{
-    border: 1px solid var(--orange);
-}
-
-.login-password{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    border: 1px solid var(--bg1);
-    border-radius: 8px;
-}
-
-.login-password:focus-within{
-    border: 1px solid var(--orange);
-}
-
-.login-password input{
-    border: none;
-    width: 100%;
-}
-
-.login-password input:focus{
-    border: none;
-}
-
-.login-password button{
-    background-color: var(--bg3);
-    border: none;
-    display: flex;
-    position: absolute;
-    cursor: pointer;
-    right: 16px;
-}
-
-.login-password button img{
-    width: 24px;
-    height: 24px;
-}
-
-.login-button{
-    padding: 16px;
-    font-size: 16px;
-    background-color: var(--text1);
-    color: var(--bg1);
-    border: 1px solid var(--bg1);
-    outline: none;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-.login-button:hover{
-    color: var(--white);
-    background-color: var(--orange);
-}
-
 .login-form p{
     margin: 0 auto;
 }
@@ -120,7 +48,7 @@
 }
 
 @media(max-width: 600px){
-    .login-page img{
+    .login-banner{
         display: none;
     }
     

@@ -1,10 +1,12 @@
 .post{
     display: flex;
-    width: 100%;
+    width: 70%;
     background-color: var(--text1);
     cursor: pointer;
+    height: fit-content;
 }
 .post img{
     width: 100%;
+    object-fit: contain;
     padding: 4px;
 }

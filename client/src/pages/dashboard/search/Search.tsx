@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Search.css";
-import UsersList from "../../../components/usersList/UsersList";
+import UsersList from "../../../components/users/Users";
 import type { UserType } from "../../../types/types";
 
 export default function Search(){

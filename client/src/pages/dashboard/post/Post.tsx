@@ -12,11 +12,8 @@ export default function Post(){
         fetchPost(postId || "");
     }, [postId]);
 
-    if(!post){
-        return <div className="loading">Loading...</div>;
-    }
-
     return(
+        post && 
         <div key={post._id} className="post">
             {post.imageUrls.map((image, index)=>(
                 <img key={index} src={image} alt="image"/>

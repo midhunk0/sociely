@@ -3,10 +3,28 @@ import type { FetchedPostType, UserType } from "../types/types";
 
 export default function useFetch(){
     const apiUrl=import.meta.env.VITE_APP_API_URL;
+    const [user, setUser]=useState<UserType>();
     const [followings, setFollowings]=useState<UserType[]>([]);
     const [followers, setFollowers]=useState<UserType[]>([]);
     const [posts, setPosts]=useState<FetchedPostType[]>([]);
     const [post, setPost]=useState<FetchedPostType>();
+
+    async function fetchUser(userId: string){
+        try{
+            const response=await fetch(`${apiUrl}/fetchUser/${userId}`, {
+                method: "GET",
+                credentials: "include"
+            });
+            if(!response.ok){
+                throw new Error("Failed to fetch user");
+            }
+            const result=await response.json();
+            setUser(result.user);
+        }
+        catch(error){
+            console.log("Error while verifying user: ", error);
+        }
+    };
 
     async function fetchFollowers(userId: string){
         try{
@@ -75,13 +93,10 @@ export default function useFetch(){
     }
 
     return{
-        followers,
-        fetchFollowers,
-        followings,
-        fetchFollowings,
-        posts,
-        fetchPosts,
-        post,
-        fetchPost
+        user, fetchUser,
+        followers, fetchFollowers,
+        followings, fetchFollowings,
+        post, fetchPost,
+        posts, fetchPosts,
     }
 }

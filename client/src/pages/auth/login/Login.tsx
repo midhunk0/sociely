@@ -94,22 +94,22 @@ export default function Login(){
                         <img src={theme==="light" ? "/left.png" : "/left-white.png"} alt="left" className="icon"/>
                     </button>
                     <h1>Send OTP</h1>
-                    <div className="login-input">
+                    <div className="form-input">
                         <label htmlFor="email">Email</label>
                         <input type="email" name="email" id="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="alexander@gmail.com" required/>
                     </div>
-                    <button type="submit" className="login-button">Send OTP</button>
+                    <button type="submit" className="form-button">Send OTP</button>
                 </form>
             :
                 <form className="login-form" onSubmit={loginUser}>
                     <h1>Login</h1>
-                    <div className="login-input">
+                    <div className="form-input">
                         <label htmlFor="credential">Email or Username</label>
                         <input type="text" id="credential" name="credential" value={loginData.credential} onChange={handleInputChange} placeholder="alexander@gmail.com" required/>
                     </div>
-                    <div className="login-input">
+                    <div className="form-input">
                         <label htmlFor="password">Password</label>
-                        <div className="login-password">
+                        <div className="form-password">
                             <input type={visible ? "text" : "password"} id="password" name="password" value={loginData.password} onChange={handleInputChange} placeholder="Password" required/>
                             <button type="button" onClick={()=>setVisible(visible=>!visible)}>
                                 <img src={visible ? theme==="light" ? "/eye.png" : "/eye-white.png" : theme==="light" ? "/eye-crossed.png" : "/eye-crossed-white.png"} alt="eye"/>
@@ -117,7 +117,7 @@ export default function Login(){
                         </div>
                     </div>
                     <a onClick={()=>setForgotPassword(true)}>Forgot password?</a>
-                    <button type="submit" className="login-button">Login</button>
+                    <button type="submit" className="form-button">Login</button>
                     <p>Don't have an account? <a href="/register">Register</a></p>
                 </form>
             }

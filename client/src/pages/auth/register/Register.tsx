@@ -60,31 +60,31 @@ export default function Register(){
         <>
         <Logo/>
         <div className="register-page">
-            <img src="/community.png" alt="community"/>
+            <img src="/community.png" alt="community" className="register-banner"/>
             <form className="register-form" onSubmit={registerUser}>
                 <h1>Register</h1>
-                <div className="register-input">
+                <div className="form-input">
                     <label htmlFor="name">Name</label>
                     <input type="text" id="name" name="name" value={registerData.name} onChange={handleInputChange} placeholder="Alexander" required/>
                 </div>
-                <div className="register-input">
+                <div className="form-input">
                     <label htmlFor="username">Username</label>
                     <input type="text" id="username" name="username" value={registerData.username} onChange={handleInputChange} placeholder="Alexander" required/>
                 </div>
-                <div className="register-input">
+                <div className="form-input">
                     <label htmlFor="email">Email</label>
                     <input type="email" id="email" name="email" value={registerData.email} onChange={handleInputChange} placeholder="alexander@gmail.com" required/>
                 </div>
-                <div className="register-input">
+                <div className="form-input">
                     <label htmlFor="password">Password</label>
-                    <div className="register-password">
+                    <div className="form-password">
                         <input type={visible ? "text" : "password"} id="password" name="password" value={registerData.password} onChange={handleInputChange} placeholder="Password" required/>
                         <button type="button" onClick={()=>setVisible(visible=>!visible)}>
                             <img src={visible ? theme==="light" ? "/eye.png" : "/eye-white.png" : theme==="light" ? "/eye-crossed.png" : "/eye-crossed-white.png"} alt="eye"/>
                         </button>
                     </div>
                 </div>
-                <button type="submit" className="register-button">Register</button>
+                <button type="submit" className="form-button">Register</button>
                 <p>Already have an account? <a href="/login">Login</a></p>
             </form>
         </div>

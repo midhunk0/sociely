@@ -5,7 +5,7 @@
     gap: 16px;
 }
 
-.update-input{
+/* .update-input{
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -23,9 +23,9 @@
 
 .update-input input:focus{
     border: 1px solid var(--orange);
-}
+} */
 
-.update-password{
+/* .update-password{
     display: flex;
     align-items: center;
     width: 100%;
@@ -45,9 +45,9 @@
 
 .update-password input:focus{
     border: none;
-}
+} */
 
-.update-password button{
+/* .update-password button{
     position: absolute;
     background-color: var(--bg3);
     display: flex;
@@ -70,12 +70,12 @@
     outline: none;
     cursor: pointer;
     border-radius: 8px;
-}
+} */
 
-.update-button:hover{
+/* .update-button:hover{
     color: var(--white);
     background-color: var(--orange);
-}
+} */
 
 @media(max-width: 1080px){
     .update-form{

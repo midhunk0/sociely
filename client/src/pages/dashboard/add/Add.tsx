@@ -88,15 +88,15 @@ export default function Add(){
                     ))}        
                 </div>
             }
-            <div className="add-post-input">
+            <div className="form-input">
                 <label htmlFor="title">Title</label>
                 <input type="text" name="title" id="title" value={postDetails.title} onChange={handleInputChange} required/>
             </div>
-            <div className="add-post-input">
+            <div className="form-input">
                 <label htmlFor="desc">Description</label>
                 <input type="text" name="description" id="desc" value={postDetails.description} onChange={handleInputChange}/>
             </div>
-            <button type="submit" className="add-post-button">Add post</button>
+            <button type="submit" className="form-button">Add post</button>
         </form>
     )
 }

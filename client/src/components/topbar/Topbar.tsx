@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./Topbar.css";
+import { useTheme } from "../../contexts/ThemeContext";
 
 interface IndicatorProps{
     left: number,
@@ -12,29 +13,13 @@ export default function Topbar(){
     const navigate=useNavigate();
     const location=useLocation();
 
-    const [theme, setTheme]=useState<string>("dark");
     const [hoveredItem, setHoveredItem]=useState<string>("");
     const [indicatorStyle, setIndicatorStyle]=useState<IndicatorProps>({
         left: 0,
         width: 0,
         opacity: 0,
     });
-
-    useEffect(()=>{
-        const savedTheme=localStorage.getItem("theme") || "dark";
-        setSavedTheme(savedTheme);
-    }, []);
-
-    const toggleTheme=()=>{
-        const newTheme=theme==="dark" ? "light" : "dark";
-        setSavedTheme(newTheme);
-    };
-
-    const setSavedTheme=(newTheme: string)=>{
-        setTheme(newTheme);
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-    };
+    const { theme, toggleTheme }=useTheme();
 
     const handleMouseEnter=(e: React.MouseEvent<HTMLButtonElement>, icon: string)=>{
         const rect=e.currentTarget.getBoundingClientRect();

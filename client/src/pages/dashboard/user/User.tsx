@@ -5,49 +5,53 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../redux/store";
 import useFetch from "../../../hooks/useFetch";
-import UsersList from "../../../components/usersList/UsersList";
-import type { UserRef, UserType } from "../../../types/types";
+import UsersList from "../../../components/users/Users";
+import type { UserRef } from "../../../types/types";
 
 export default function User(){
     const { userId }=useParams();
     const apiUrl=import.meta.env.VITE_APP_API_URL;
     const profile=useSelector((state: RootState)=>state.profile);
-    const [user, setUser]=useState<UserType>();
+    // const [user, setUser]=useState<UserType>();
     const [activeTab, setActiveTab]=useState<string>("posts");
     const [isFollowing, setIsFollowing]=useState<boolean>(false);
     const [hover, setHover]=useState<boolean>(false);
     const [isMe, setIsMe]=useState<boolean>(false);
-    const { followers, followings, fetchFollowers, fetchFollowings }=useFetch();
+    const { user, fetchUser, followers, followings, fetchFollowers, fetchFollowings }=useFetch();
 
-    const fetchUser=async()=>{
-        try{
-            const response=await fetch(`${apiUrl}/fetchUser/${userId}`, {
-                method: "GET",
-                credentials: "include"
-            });
-            if(!response.ok){
-                throw new Error("Failed to fetch user");
-            }
-            const result=await response.json();
-            setUser(result.user);
-            setIsFollowing(result.user.followers?.some((follower: UserRef)=>follower.userId===profile._id) || false);
-            setIsMe(profile.username===result.user.username);
-        }
-        catch(error){
-            console.log("Error while verifying user: ", error);
-        }
-    };
+    // const fetchUser=async()=>{
+    //     try{
+    //         const response=await fetch(`${apiUrl}/fetchUser/${userId}`, {
+    //             method: "GET",
+    //             credentials: "include"
+    //         });
+    //         if(!response.ok){
+    //             throw new Error("Failed to fetch user");
+    //         }
+    //         const result=await response.json();
+    //         setUser(result.user);
+    //         setIsFollowing(result.user.followers?.some((follower: UserRef)=>follower.userId===profile._id) || false);
+    //         setIsMe(profile.username===result.user.username);
+    //     }
+    //     catch(error){
+    //         console.log("Error while verifying user: ", error);
+    //     }
+    // };
 
     useEffect(()=>{
-        fetchUser();
+        // fetchUser();
+        setIsFollowing(user?.followers?.some((follower: UserRef)=>follower.userId===profile._id) || false);
+        setIsMe(profile.username===user?.username);
     }, [apiUrl, userId, profile]);
 
     useEffect(()=>{
-        if(user && user._id){
-            fetchFollowers(user._id);
-            fetchFollowings(user._id);
+        if(userId){
+            fetchUser(userId);
+            console.log(user);
+            fetchFollowers(userId);
+            fetchFollowings(userId);
         }
-    }, [user]);
+    }, [userId]);
 
     async function toggleFollowUser(userId: string){
         try{
@@ -61,7 +65,7 @@ export default function User(){
             }
             const result=await response.json();
             console.log(result.message);
-            await fetchUser();
+            // await fetchUser();
         }
         catch(error){
             console.log("Error while following user: ", error);

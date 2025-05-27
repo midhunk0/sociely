@@ -401,7 +401,6 @@ async function addPost(req, res){
 async function fetchImage(req, res){
     try{
         const { postId, imageIndex }=req.params;
-        console.log(postId, imageIndex);
         const index=parseInt(imageIndex);
         if(isNaN(index) || index<0){
             return res.status(400).json({ message: "Invalid image index" });

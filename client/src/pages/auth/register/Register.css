@@ -3,7 +3,7 @@
     height: 100vh;
     padding: 8px;
     gap: 8px;
-    background-color: var(--bg1);
+    background-color: var(--bg2);
     color: var(--text1);
 }
 
@@ -22,78 +22,6 @@
     height: 100%;
     gap: 16px;
     border-radius: 8px;
-}
-
-.register-input{
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.register-input input{
-    padding: 16px;
-    background-color: var(--bg3);
-    color: var(--text1);
-    border: 1px solid var(--bg1);
-    outline: none;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
-.register-input input:focus{
-    border: 1px solid var(--orange);
-}
-
-.register-password{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    position: relative;
-    border: 1px solid var(--bg1);
-    border-radius: 8px;
-}
-
-.register-password:focus-within{
-    border: 1px solid var(--orange);
-}
-
-.register-password input{
-    border: none;
-    width: 100%;
-}
-
-.register-password input:focus{
-    border: none;
-}
-
-.register-password button{
-    position: absolute;
-    background-color: var(--bg3);
-    display: flex;
-    border: none;
-    right: 16px;
-    cursor: pointer;
-}
-
-.register-password button img{
-    width: 24px;
-    height: 24px;
-}
-
-.register-button{
-    padding: 16px;
-    font-size: 16px;
-    background-color: var(--text1);
-    color: var(--bg1);
-    border: 1px solid var(--bg1);
-    outline: none;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-.register-button:hover{
-    color: var(--white);
-    background-color: var(--orange);
 }
 
 .register-form p{
@@ -116,7 +44,7 @@
 }
 
 @media(max-width: 600px){
-    .register-page img{
+    .register-banner{
         display: none;
     }
 

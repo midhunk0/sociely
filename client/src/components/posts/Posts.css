@@ -20,3 +20,26 @@
     width: 100%;
     padding: 4px;
 }
+
+.posts-post.skeleton{
+    width: calc(50% - 2px);
+    background: linear-gradient(
+        90deg,
+        var(--bg2) 20%,   
+        var(--bg3) 40%,   
+        var(--bg3) 60%,   
+        var(--bg2) 80%    
+    );
+    background-size: 200% 100%;
+    border: 2px solid var(--orange);
+    animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+}

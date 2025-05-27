@@ -27,7 +27,7 @@ a{
 }
 
 :root{
-    --transition: all 0.2s ease;
+    --transition: all 0.3s ease-in-out;
     --orange: #E05E35;
     --black: #000000;
     --white: #FFFFFF;
@@ -97,4 +97,76 @@ a{
 .modal-buttons .delete{
     background-color: var(--orange);
     color: var(--white);
+}
+
+.form-input{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-input input{
+    padding: 16px;
+    background-color: var(--bg1);
+    color: var(--text1);
+    border: 2px solid var(--bg3);
+    outline: none;
+    font-size: 16px;
+    border-radius: 32px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-input input:hover, .form-input input:focus{
+    border-radius: 8px;
+    border: 2px solid var(--orange);
+}
+
+.form-password{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    border-radius: 32px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-password input:hover, .form-password input:focus{
+    border: 2px solid var(--orange);
+    border-radius: 8px;
+}
+
+.form-password input{
+    width: 100%;
+}
+
+.form-password button{
+    position: absolute;
+    background-color: var(--bg1);
+    display: flex;
+    border: none;
+    outline: none;
+    right: 16px;
+    cursor: pointer;
+}
+
+.form-password button img{
+    width: 24px;
+    height: 24px;
+}
+
+.form-button{
+    padding: 16px;
+    font-size: 16px;
+    background-color: var(--orange);
+    color: var(--white);
+    border: 2px solid var(--bg1);
+    outline: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-button:hover{
+    border-radius: 32px;
+    border: 2px solid var(--text1);
 }

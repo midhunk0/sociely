@@ -14,9 +14,11 @@ import User from "./pages/dashboard/user/User";
 import Verification from "./pages/auth/verification/Verification";
 import Update from "./pages/dashboard/profile/update/Update";
 import Post from "./pages/dashboard/post/Post";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App(){
     return(
+        <ThemeProvider>
         <Router>
             <Routes>
                 <Route path="/login" element={<Login/>}/>
@@ -40,6 +42,7 @@ function App(){
                 </Route>
             </Routes>
         </Router>
+        </ThemeProvider>
     )
 }
 

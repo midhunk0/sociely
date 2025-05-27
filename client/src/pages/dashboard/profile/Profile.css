@@ -44,10 +44,13 @@
     outline: none;
     cursor: pointer;
     background-color: var(--bg2);
+    transition: all 0.3s ease-in-out;
 }
 
 .profile-edit-button:hover{
-    background-color: var(--text1);
+    border-radius: 8px;
+    border: 2px solid var(--orange);
+    /* background-color: var(--text1); */
 }
 
 .profile-user-details{

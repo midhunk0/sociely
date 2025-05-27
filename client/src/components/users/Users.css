@@ -7,6 +7,12 @@
     padding: 12px;
     cursor: pointer;
     background-color: var(--bg1);
+    transition: all 0.3s ease-in-out;
+}
+
+.usersList-user:hover{
+    border-radius: 8px;
+    border: 2px solid var(--orange);
 }
 
 .usersList-user img{

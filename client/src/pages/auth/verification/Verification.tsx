@@ -84,16 +84,16 @@ export default function Verification(){
                     <img src={theme==="light" ? "/left.png" : "/left-white.png"} alt="left" className="icon"/>
                 </button>
                 <h1>Verify OTP</h1>
-                <div className="verification-input">
+                <div className="form-input">
                     <label htmlFor="email">Email</label>
                     <input type="email" name="email" id="email" value={verificationData.email} onChange={handleInputChange} placeholder="alexander@gmail.com" required/>
                 </div>
-                <div className="verification-input">
+                <div className="form-input">
                     <label htmlFor="otp">OTP</label>
                     <input type="text" name="otp" id="otp" value={verificationData.otp} onChange={handleInputChange} placeholder="000000" required/>
                 </div>
                 <a href="#" onClick={sendOTP}>Send new OTP</a>
-                <button type="submit" className="verification-button">Verify</button>
+                <button type="submit" className="form-button">Verify</button>
             </form>
         </div>
         </>

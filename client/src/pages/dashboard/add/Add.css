@@ -12,16 +12,6 @@
     gap: 8px;
 }
 
-.add-post-input input{
-    padding: 16px;
-    background-color: var(--bg3);
-    color: var(--text1);
-    border: 1px solid var(--bg1);
-    outline: none;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
 .add-post-input input[type="file"]{
     display: none;
 }
@@ -29,12 +19,18 @@
 .add-post-label-input{
     cursor: pointer;
     padding: 16px;
-    background-color: var(--bg3);
+    background-color: var(--bg1);
     color: var(--text1);
-    border: 1px solid var(--bg1);
+    border: 2px solid var(--bg3);
     outline: none;
     font-size: 16px;
+    border-radius: 32px;
+    transition: all 0.3s ease-in-out;
+}
+
+.add-post-label-input:hover{
     border-radius: 8px;
+    border: 2px solid var(--orange);
 }
 
 .add-post-input input[type="file"]::file-selector-button{
@@ -42,34 +38,13 @@
     display: none;
 }
 
-.add-post-input input:focus{
-    border: 1px solid var(--orange);
-}
-
-.add-post-button{
-    padding: 16px;
-    font-size: 16px;
-    background-color: var(--text1);
-    color: var(--bg1);
-    border: 1px solid var(--bg1);
-    outline: none;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-.add-post-button:hover{
-    color: var(--white);
-    background-color: var(--orange);
-}
-
-
 .add-post-images{
     width: 100%;
     display: flex;
     overflow-x: auto; 
     scroll-snap-type: x mandatory; 
     background: var(--bg3);
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
 .add-post-image{
@@ -95,10 +70,13 @@
     padding: 12px;
     border: 2px solid var(--bg3);
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
 .add-post-remove-image:hover{
-    background-color: var(--text1);
+    border-radius: 8px;
+    border: 2px solid var(--orange);
+    /* background-color: var(--text1); */
 }
 
 .add-post-remove-image img{

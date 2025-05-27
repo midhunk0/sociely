@@ -4,7 +4,7 @@ import "./Profile.css";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../redux/store";
 import useFetch from "../../../hooks/useFetch";
-import UsersList from "../../../components/usersList/UsersList";
+import Users from "../../../components/users/Users";
 import { useNavigate } from "react-router-dom";
 import Posts from "../../../components/posts/Posts";
 
@@ -55,14 +55,14 @@ export default function Profile(){
                     <p>No followers</p> 
                 </div>
             : 
-                <UsersList users={followers}/>
+                <Users users={followers}/>
             )}
             {activeTab==="followings" && (profile.followings?.length===0 ? 
                 <div className="profile-empty">
                     <p>No followings</p> 
                 </div>
             : 
-                <UsersList users={followings}/>
+                <Users users={followings}/>
             )}
         </div>
     )

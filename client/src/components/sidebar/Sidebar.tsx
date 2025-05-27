@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
+import { useTheme } from "../../contexts/ThemeContext";
 
 interface SidebarItem{
     path: string;
@@ -15,40 +16,24 @@ interface IndicatorProps{
 
 type Part="middle" | "bottom";
 
+const sidebarItems: SidebarItem[]=[
+    { path: "/add", icon: "add" },
+    { path: "/home", icon: "home" },
+    { path: "/search", icon: "search" },
+    { path: "/chat", icon: "messages" },
+    { path: "/profile", icon: "profile" },
+];
+
 export default function Sidebar(){
     const navigate=useNavigate();
     const location=useLocation();
 
-    const [theme, setTheme]=useState<string>("dark");
     const [hoveredItem, setHoveredItem]=useState<string>("");
     const [indicatorProps, setInticatorProps]=useState<Record<Part, IndicatorProps>>({
         middle: { top: 0, width: 0, opacity: 0 },
         bottom: { top: 0, width: 0, opacity: 0 },
     });
-
-    const sidebarItems: SidebarItem[]=[
-        { path: "/add", icon: "add" },
-        { path: "/home", icon: "home" },
-        { path: "/search", icon: "search" },
-        { path: "/chat", icon: "messages" },
-        { path: "/profile", icon: "profile" },
-    ];
-
-    useEffect(()=>{
-        const savedTheme=localStorage.getItem("theme") || "dark";
-        setSavedTheme(savedTheme);
-    }, []);
-
-    const toggleTheme=()=>{
-        const newTheme=theme==="dark" ? "light" : "dark";
-        setSavedTheme(newTheme);
-    };
-
-    const setSavedTheme=(newTheme: string)=>{
-        setTheme(newTheme);
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-    };
+    const { theme, toggleTheme }=useTheme();
 
     const handleMouseEnter=(e: React.MouseEvent<HTMLButtonElement>, part: "middle" | "bottom", icon: string)=>{
         const rect=e.currentTarget.getBoundingClientRect();
