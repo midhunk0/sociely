@@ -87,7 +87,6 @@ export default function Login(){
         <>
         <Logo/>
         <div className="login-page">
-            <img src="/community.png" alt="community" className="login-banner"/>
             {forgotPassword ? 
                 <form className="login-form" onSubmit={sendOTP}>
                     <button type="button" onClick={()=>setForgotPassword(false)} className="back-button">
@@ -121,6 +120,7 @@ export default function Login(){
                     <p>Don't have an account? <a href="/register">Register</a></p>
                 </form>
             }
+            <img src="/community.png" alt="community" className="login-banner"/>
         </div>
         </>
     )

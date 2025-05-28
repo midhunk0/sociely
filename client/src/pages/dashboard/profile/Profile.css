@@ -50,7 +50,6 @@
 .profile-edit-button:hover{
     border-radius: 8px;
     border: 2px solid var(--orange);
-    /* background-color: var(--text1); */
 }
 
 .profile-user-details{

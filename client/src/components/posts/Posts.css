@@ -10,15 +10,22 @@
     width: calc(50% - 2px);
     background-color: var(--text1);
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
 }
 
-.posts-post :hover{
+.posts-post:hover{
     background-color: var(--orange);
+    border-radius: 8px;
 }
 
 .posts-post img{
     width: 100%;
     padding: 4px;
+    transition: all 0.3s ease-in-out;
+}
+
+.posts-post img:hover{
+    border-radius: 8px;
 }
 
 .posts-post.skeleton{

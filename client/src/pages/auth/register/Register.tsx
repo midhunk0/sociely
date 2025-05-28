@@ -60,7 +60,6 @@ export default function Register(){
         <>
         <Logo/>
         <div className="register-page">
-            <img src="/community.png" alt="community" className="register-banner"/>
             <form className="register-form" onSubmit={registerUser}>
                 <h1>Register</h1>
                 <div className="form-input">
@@ -87,6 +86,7 @@ export default function Register(){
                 <button type="submit" className="form-button">Register</button>
                 <p>Already have an account? <a href="/login">Login</a></p>
             </form>
+            <img src="/community.png" alt="community" className="register-banner"/>
         </div>
         </>
     )
