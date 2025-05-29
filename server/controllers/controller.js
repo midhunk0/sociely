@@ -1,6 +1,6 @@
 const { hashPassword, generateToken, comparePassword } = require("../config/auth");
 const sendEmail = require("../config/mail");
-const { User, Post } = require("../models/model");
+const { User, Post, Chat, Message } = require("../models/model");
 
 const generateOTP=()=>{
     return Math.floor(100000+Math.random()*900000).toString();
@@ -518,6 +518,26 @@ async function deleteUser(req, res){
     }
 }
 
+async function chat(req, res){
+    const userId=req.user.userId;
+    const { senderId }=req.params;
+    let chat=await Chat.findOne({ members: { $all: [ userId, senderId ] }});
+    if(!chat){
+        chat=await Chat.create({ members: [ userId, senderId ]});
+    }
+
+    return res.status(200).json({ message: "Chat opened", chat });
+}
+
+async function fetchMessages(req, res){
+    const { chatId }=req.params;
+    const messages=await Message.find({ chatId }).sort({ timestamp: 1 })
+    if(!messages){
+        return res.status(400).json({ messages: "No messages" });
+    }
+    return res.status(200).json({ message: "Messages fetched", messages });
+}
+
 module.exports={
     registerUser,
     sendOTP,
@@ -541,5 +561,7 @@ module.exports={
     addComment,
     editComment,
     deleteComment,
+    chat, 
+    fetchMessages,
     deleteUser
 }

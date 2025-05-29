@@ -8,6 +8,34 @@ const userRefSchema=new mongoose.Schema({
     },
 }, { timestamps: true, _id: false });
 
+const chatSchema=new mongoose.Schema({
+    members: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }]
+}, { timestamps: true });
+
+const messageSchema=new mongoose.Schema({
+    chatId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Chat",
+        required: true
+    },
+    senderId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    message: { 
+        type: String,
+        required: true
+    },
+    timestamp: {
+        type: Date,
+        default: Date.now
+    }
+});
+
 const commentsSchema=new mongoose.Schema({
     userId: { 
         type: mongoose.Schema.Types.ObjectId,
@@ -110,4 +138,6 @@ const userSchema=new mongoose.Schema({
 
 const User=mongoose.model("User", userSchema);
 const Post=mongoose.model("Post", postSchema);
-module.exports={ User, Post };
+const Chat=mongoose.model("Chat", chatSchema);
+const Message=mongoose.model("Message", messageSchema);
+module.exports={ User, Post, Chat, Message };

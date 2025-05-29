@@ -1,0 +1,175 @@
+.chat{
+    display: flex;
+    width: 100%;
+    border: 2px solid var(--bg3);
+    border-radius: 16px;
+}
+
+.chat-users{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    padding: 16px;
+    gap: 4px;
+}
+
+.chat-users h1{
+    padding: 16px;
+}
+
+.chat-users-search{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--bg1);
+    border: 2px solid var(--bg3);
+    padding: 12px;
+    border-radius: 32px;
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 8px;
+}
+
+.chat-users-search:hover, .chat-users-search:active{
+    border: 2px solid var(--orange);
+    border-radius: 8px;
+}
+
+.chat-users-search input{
+    font-size: 16px;
+    color: var(--text1);
+    background-color: var(--bg1);
+    border: none;
+    outline: none;
+    width: 100%;
+}
+
+.chat-user{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px;
+    border: 2px solid var(--bg3);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+.chat-user:hover{
+    background-color: var(--bg1);
+    border: 2px solid var(--orange);
+    border-radius: 32px;
+}
+
+.chat-selected{
+    width: 80%;
+    border-left: 2px solid var(--bg3);
+}
+
+.chat-selected-user{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 16px;
+    gap: 16px;
+}
+
+.chat-selected-user-messages{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: scroll;
+}
+
+.chat-selected-user-message{
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-selected-user-input{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 2px solid var(--bg3);
+    overflow: hidden;
+    border-radius: 32px;
+    transition: all 0.3s ease-in-out;
+}
+
+.chat-selected-user-input input{
+    padding: 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: var(--bg1);
+    color: var(--text1);
+}
+
+.chat-selected-user-input:hover, .chat-selected-user-input:active{
+    border: 2px solid var(--orange);
+    border-radius: 8px;
+}
+
+.chat-date-header{
+    display: flex;
+    margin: auto;
+}
+
+.chat-time{
+    font-size: 12px;
+}
+
+.chat-selected-user-input button{
+    display: flex;
+    padding: 16px;
+    cursor: pointer;
+    background-color: var(--bg1);
+    border: none;
+    outline: none;
+}
+
+
+.chat-selected-user-message div{
+    display: flex;
+}
+
+.chat-time{
+    margin-top: auto;
+    font-size: 12px;
+    color: var(--text3);
+}
+
+.chat-send-message{
+    display: flex;
+    gap: 4px;
+    padding: 12px;
+    margin-left: auto;
+    border-radius: 8px;
+    background-color: var(--bg1);
+    border: 2px solid var(--bg3);
+    border-bottom-right-radius: 0px;
+
+}
+
+.chat-receive-message{
+    display: flex;
+    gap: 4px;
+
+    padding: 12px;
+    background-color: var(--bg3);
+    border: 2px solid var(--bg3);
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+}
+
+.chat-sender-cone {
+    align-self: flex-end;
+    border-top: 4px solid transparent;
+    border-left: 4px solid var(--bg3);
+}
+
+.chat-receiver-cone {
+    align-self: flex-end;
+    border-top: 4px solid transparent;
+    border-right: 4px solid var(--bg3);
+}

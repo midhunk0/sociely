@@ -1,6 +1,6 @@
 const express=require("express");
 const router=express.Router();
-const { registerUser, loginUser, logoutUser, fetchProfile, searchUser, fetchUser, toggleFollowUser, fetchFollowers, fetchFollowings, deleteUser, updateUser, addPost, editPost, deletePost, toggleLike, addComment, editComment, deleteComment, sendOTP, verifyOTP, fetchImage, fetchPost, fetchPosts }=require("../controllers/controller");
+const { registerUser, loginUser, logoutUser, fetchProfile, searchUser, fetchUser, toggleFollowUser, fetchFollowers, fetchFollowings, deleteUser, updateUser, addPost, editPost, deletePost, toggleLike, addComment, editComment, deleteComment, sendOTP, verifyOTP, fetchImage, fetchPost, fetchPosts, chat, fetchMessages }=require("../controllers/controller");
 const authMiddleware=require("../middlewares/auth");
 const upload = require("../config/multer");
 
@@ -26,6 +26,8 @@ router.put("/toggleLike/:postId", authMiddleware, toggleLike);
 router.post("/addComment/:postId", authMiddleware, addComment);
 router.put("/editComment/:commentId", authMiddleware, editComment);
 router.delete("/deleteComment/:commentId", authMiddleware, deleteComment);
+router.post("/chat/:senderId", authMiddleware, chat);
+router.get("/chat/:chatId", authMiddleware, fetchMessages);
 
 router.delete("/deleteUser", authMiddleware, deleteUser);
 

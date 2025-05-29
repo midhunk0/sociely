@@ -4,6 +4,10 @@ export interface UserRef{
     updatedAt: string;
 }
 
+export interface ChatRef{
+    members: UserRef[]
+}
+
 export interface UserType{
     name?: string;
     username?: string;
@@ -64,4 +68,11 @@ export interface FetchedPostType{
     comments: CommentType[];
     createdAt: string;
     updatedAt: string;
+}
+
+export interface MessageType{
+    chatId: string,
+    senderId: string,
+    message: string,
+    timestamp?: Date
 }
