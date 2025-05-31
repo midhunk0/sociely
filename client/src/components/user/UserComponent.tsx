@@ -4,12 +4,12 @@ import "./UserComponent.css";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import useFetch from "../../hooks/useFetch";
-import type { UserRef, UserType } from "../../types/types";
+import type { UserRef } from "../../types/types";
 import PostsComponent from "../posts/PostsComponent";
 import UsersComponent from "../users/UsersComponent";
 import { useNavigate } from "react-router-dom";
 
-export default function UserComponent({ userId, onSelectUser }: { userId: string | undefined, onSelectUser?: ()=>void }){
+export default function UserComponent({ userId }: { userId: string | undefined }){
     const apiUrl=import.meta.env.VITE_APP_API_URL;
     const profile=useSelector((state: RootState)=>state.profile);
     const [activeTab, setActiveTab]=useState<string>("posts");
@@ -17,7 +17,6 @@ export default function UserComponent({ userId, onSelectUser }: { userId: string
     const [hover, setHover]=useState<boolean>(false);
     const [isMe, setIsMe]=useState<boolean>(false);
     const { user, fetchUser, followers, followings, fetchFollowers, fetchFollowings, posts, fetchPosts }=useFetch();
-    const [selectedUser, setSelectedUser]=useState<UserType>();
     const navigate=useNavigate();
 
     useEffect(()=>{
@@ -33,16 +32,6 @@ export default function UserComponent({ userId, onSelectUser }: { userId: string
             fetchPosts(userId);
         }
     }, [userId]);
-
-    useEffect(()=>{
-        if(selectedUser && selectedUser._id!==""){
-            onSelectUser?.();
-            fetchUser(selectedUser._id);
-            fetchFollowers(selectedUser._id);
-            fetchFollowings(selectedUser._id);
-            fetchPosts(selectedUser._id);
-        }
-    }, [selectedUser]);
 
     async function toggleFollowUser(userId: string){
         try{
@@ -107,14 +96,14 @@ export default function UserComponent({ userId, onSelectUser }: { userId: string
                     <p>No followers</p> 
                 </div>
             : 
-                <UsersComponent users={followers} onSelectUser={setSelectedUser}/>
+                <UsersComponent users={followers}/>
             )}
             {activeTab==="followings" && (user.followings?.length===0 ? 
                 <div className="user-empty">
                     <p>No followings</p> 
                 </div>
             : 
-                <UsersComponent users={followings} onSelectUser={setSelectedUser}/>
+                <UsersComponent users={followings}/>
             )}
         </div>
     )
