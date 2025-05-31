@@ -26,29 +26,6 @@ a{
     cursor: pointer;
 }
 
-:root{
-    --transition: all 0.3s ease-in-out;
-    --orange: #E05E35;
-    --black: #000000;
-    --white: #FFFFFF;
-
-    --bg1: #FFFFFF;
-    --bg2: #F5F5F5;  
-    --bg3: #E0E0E0;  
-    --text1: #000000;
-    --text2: #111111;  
-    --text3: #2A2A2A;  
-}
-
-[data-theme="dark"]{
-    --bg1: #000000;
-    --bg2: #111111;
-    --bg3: #2A2A2A;
-    --text1: #FFFFFF;
-    --text2: #F5F5F5;  
-    --text3: #E0E0E0;  
-}
-
 .modal-backdrop {
     position: fixed;
     top: 0;

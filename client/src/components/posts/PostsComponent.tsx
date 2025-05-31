@@ -1,20 +1,14 @@
-import { useNavigate } from "react-router-dom";
 import type { FetchedPostType } from "../../types/types";
-import "./Posts.css";
+import "./PostsComponent.css";
 import { useEffect, useState } from "react";
 
-interface props{
-    userPosts: FetchedPostType[]
-}
-
-export default function Posts({userPosts}: props){
-    const navigate=useNavigate();
+export default function PostsComponent({ posts }: { posts: FetchedPostType[]}){
     const [imagesLoaded, setImagesLoaded]=useState<boolean>(false);
 
     useEffect(()=>{
-        if(!userPosts.length) return;
+        if(!posts.length) return;
 
-        const imageUrls=userPosts.flatMap(post=>post.imageUrls);
+        const imageUrls=posts.flatMap(post=>post.imageUrls);
         const loadImages=imageUrls.map(src=>{
             return new Promise((resolve)=>{
                 const img=new Image();
@@ -24,7 +18,7 @@ export default function Posts({userPosts}: props){
             });
         });
         Promise.all(loadImages).then(()=>setImagesLoaded(true));
-    }, [userPosts]);
+    }, [posts]);
 
     if(!imagesLoaded){
         return(
@@ -38,8 +32,8 @@ export default function Posts({userPosts}: props){
 
     return(
         <div className="posts">
-            {userPosts.map((post)=>(
-                <div key={post._id} className="posts-post" onClick={()=>navigate(`/post/${post._id}`)}>
+            {posts.map((post)=>(
+                <div key={post._id} className="posts-post">
                     {post.imageUrls.map((image, index)=>(
                         <img key={index} src={image} alt="image"/>
                     ))}

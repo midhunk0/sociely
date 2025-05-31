@@ -4,9 +4,9 @@ import "./Profile.css";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../redux/store";
 import useFetch from "../../../hooks/useFetch";
-import Users from "../../../components/users/Users";
 import { useNavigate } from "react-router-dom";
-import Posts from "../../../components/posts/Posts";
+import UsersComponent from "../../../components/users/UsersComponent";
+import PostsComponent from "../../../components/posts/PostsComponent";
 
 export default function Profile(){
     const navigate=useNavigate();
@@ -31,7 +31,7 @@ export default function Profile(){
                     <div className="profile-details-header">
                         <h1>{profile.username}</h1>
                         <button className="profile-edit-button" onClick={()=>navigate("/profile/update")} onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}>
-                            <img src={hover ? "./edit-active.png" : "./edit.png"} alt="edit" className="icon"/>
+                            <img src={hover ? "/edit-active.png" : "/edit.png"} alt="edit" className="icon"/>
                         </button>
                     </div>
                     <p>{profile.name}</p>
@@ -48,21 +48,21 @@ export default function Profile(){
                     <p>No posts</p> 
                 </div>
             : 
-                <Posts userPosts={posts}/>
+                <PostsComponent posts={posts}/>
             )}
             {activeTab==="followers" && (profile.followers?.length===0 ? 
                 <div className="profile-empty">
                     <p>No followers</p> 
                 </div>
             : 
-                <Users users={followers}/>
+                <UsersComponent users={followers}/>
             )}
-            {activeTab==="followings" && (profile.followings?.length===0 ? 
-                <div className="profile-empty">
-                    <p>No followings</p> 
-                </div>
-            : 
-                <Users users={followings}/>
+                {activeTab==="followings" && (profile.followings?.length===0 ? 
+                    <div className="profile-empty">
+                        <p>No followings</p> 
+                    </div>
+                : 
+                <UsersComponent users={followings}/>
             )}
         </div>
     )

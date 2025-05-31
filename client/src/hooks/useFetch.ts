@@ -9,7 +9,7 @@ export default function useFetch(){
     const [posts, setPosts]=useState<FetchedPostType[]>([]);
     const [post, setPost]=useState<FetchedPostType>();
 
-    async function fetchUser(userId: string){
+    async function fetchUser(userId: string | undefined){
         try{
             const response=await fetch(`${apiUrl}/fetchUser/${userId}`, {
                 method: "GET",
@@ -26,7 +26,7 @@ export default function useFetch(){
         }
     };
 
-    async function fetchFollowers(userId: string){
+    async function fetchFollowers(userId: string | undefined){
         try{
             const response=await fetch(`${apiUrl}/fetchFollowers/${userId}`, {
                 method: "GET",
@@ -44,7 +44,7 @@ export default function useFetch(){
         }
     }
 
-    async function fetchFollowings(userId: string){
+    async function fetchFollowings(userId: string | undefined){
         try{
             const response=await fetch(`${apiUrl}/fetchFollowings/${userId}`, {
                 method: "GET",
@@ -62,7 +62,7 @@ export default function useFetch(){
         }
     }
 
-    async function fetchPosts(userId: string){
+    async function fetchPosts(userId: string | undefined){
         try{
             const response=await fetch(`${apiUrl}/fetchPosts/${userId}`, {
                 method: "GET",
@@ -77,7 +77,7 @@ export default function useFetch(){
         }
     }
 
-    async function fetchPost(postId: string){
+    async function fetchPost(postId: string | undefined){
         try{    
             const response=await fetch(`${apiUrl}/fetchPost/${postId}`, {
                 method: "GET",

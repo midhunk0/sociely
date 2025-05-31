@@ -1,13 +1,13 @@
 .post{
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 100%;
     background-color: var(--bg2);
     border: 2px solid var(--bg3);
     border-radius: 16px;
     gap: 8px;
     height: fit-content;
-    padding: 8px;
+    padding: 16px;
 }
 
 .post-user{

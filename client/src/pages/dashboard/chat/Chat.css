@@ -1,7 +1,7 @@
 .chat{
     display: flex;
     width: 100%;
-    border: 2px solid var(--bg3);
+    /* border: 2px solid var(--bg3); */
     border-radius: 16px;
 }
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./Search.css";
-import UsersList from "../../../components/users/Users";
 import type { UserType } from "../../../types/types";
+import UsersComponent from "../../../components/users/UsersComponent";
 
 export default function Search(){
     const apiUrl=import.meta.env.VITE_APP_API_URL;
@@ -40,12 +40,12 @@ export default function Search(){
 
     return(
         <div className="search">
-            <h1>search</h1>
+            <h1>Search</h1>
             <input type="text" name="identifier" value={identifier} className="search-bar" placeholder="alexander0" onChange={(e)=>setIdentifier(e.target.value)}/>
             {users && users.length===0 && identifier.trim() && (
                 <p>No users found</p>
             )}
-            <UsersList users={users}/>
+            <UsersComponent users={users}/>
         </div>
     )
 }

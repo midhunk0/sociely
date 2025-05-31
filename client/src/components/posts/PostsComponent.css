@@ -1,7 +1,8 @@
 .posts{
     display: flex;
     flex-wrap: wrap;
-    height: 100%;
+    min-height: calc(100% - 154px);
+    overflow: scroll;
     gap: 4px;
 }
 
@@ -30,6 +31,7 @@
 
 .posts-post.skeleton{
     width: calc(50% - 2px);
+    height: 200px;
     background: linear-gradient(
         90deg,
         var(--bg2) 20%,   

@@ -1,3 +1,40 @@
 *{
     scrollbar-width: none;
 }
+
+:root{
+    --transition: all 0.3s ease-in-out;
+    --orange: #E05E35;
+    --black: #000000;
+    --white: #FFFFFF;
+
+    --bg1: #FFFFFF;
+    --bg2: #F5F5F5;  
+    --bg3: #E0E0E0;  
+    --text1: #000000;
+    --text2: #111111;  
+    --text3: #2A2A2A;  
+}
+
+[data-theme="dark"]{
+    --bg1: #000000;
+    --bg2: #111111;
+    --bg3: #2A2A2A;
+    --text1: #FFFFFF;
+    --text2: #F5F5F5;  
+    --text3: #E0E0E0;  
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    box-shadow: 0 0 0px 1000px var(--bg1) inset; 
+    -webkit-text-fill-color: var(--text1); 
+    transition: background-color 5000s ease-in-out 0s;
+}

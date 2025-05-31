@@ -1,43 +1,42 @@
-.profile{
+.user-component{
+    width: 100%;
     display: flex;
     flex-direction: column;
-    width: 50%;
-    padding: 16px;
+    height: 100%;
     gap: 16px;
 }
 
-.profile hr{
+.user-component hr{
     border: 1px solid var(--bg3);
 }
 
-.profile-header{
+.user-header{
     display: flex;
     justify-content: space-between;
 }
 
-.profile-image{
+.user-image{
     width: 120px;
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: var(--white);
     border: 2px solid var(--bg3);
-    object-fit: cover;
 }
 
-.profile-details{
+.user-details{
     display: flex;
     flex-direction: column;
     width: 70%;
     gap: 8px;
 }
 
-.profile-details-header{
+.user-details-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.profile-edit-button{
+.user-toggle-follow-button{
     display: flex;
     padding: 12px;
     border-radius: 50%;
@@ -48,56 +47,24 @@
     transition: all 0.3s ease-in-out;
 }
 
-.profile-edit-button:hover{
+.user-toggle-follow-button:hover{
     border-radius: 8px;
     border: 2px solid var(--orange);
 }
 
-.profile-user-details{
+.user-user-details{
     display: flex;
     width: 70%;
     justify-content: space-between;
     margin-top: auto;
 }
 
-.profile-user-details p{
+.user-user-details p{
     cursor: pointer;
 }
 
-.profile-empty{
+.user-empty{
     display: grid;
     place-content: center;
     height: 100%;
-}
-
-.profile-another{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 16px;
-}
-
-.profile-select{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 16px;
-}
-
-@media(max-width: 1080px){
-    .profile{
-        width: 70%;
-    }
-
-    .profile-image{
-        width: 80px;
-        height: 80px;
-    }
-}
-
-@media(max-width: 720px){
-    .profile{
-        width: 100%;
-    }
 }

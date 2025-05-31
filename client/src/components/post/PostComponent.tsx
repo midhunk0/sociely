@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useParams } from "react-router-dom";
-import "./Post.css";
+import "./PostComponent.css";
 import { useEffect } from "react";
-import useFetch from "../../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 
-export default function Post(){
-    const { postId }=useParams();
+export default function PostComponent({ postId }: { postId: string | undefined }){
     const { post, fetchPost, user, fetchUser }=useFetch();
 
     useEffect(()=>{
@@ -21,12 +19,12 @@ export default function Post(){
     function formatDate(dateInput: string){
         const date=new Date(dateInput);
 
-        const day = date.getUTCDate();
-        const month = date.toLocaleString("default", { month: "long" });
-        const year = date.getUTCFullYear();
+        const day=date.getUTCDate();
+        const month=date.toLocaleString("default", { month: "long" });
+        const year=date.getUTCFullYear();
 
         let postFix="";
-        if(day > 3 && day < 21) postFix="th";
+        if(day>3 && day<21) postFix="th";
         switch(day % 10){
             case 1: postFix="st"; break;
             case 2: postFix="nd"; break;
@@ -34,7 +32,7 @@ export default function Post(){
             default: postFix="th"; break;
         }
 
-        const formattedDate = `${day}${postFix} ${month} ${year}`;
+        const formattedDate=`${day}${postFix} ${month} ${year}`;
         return formattedDate;
     }
     

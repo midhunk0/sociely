@@ -1,8 +1,8 @@
-import "./Users.css";
-import { useNavigate } from "react-router-dom";
+import "./UsersComponent.css";
 import type { UserType } from "../../types/types";
+import { useNavigate } from "react-router-dom";
 
-export default function Users({ users }: { users: UserType[] }){
+export default function UsersComponent({ users }: { users: UserType[]}){
     const navigate=useNavigate();
 
     return(
