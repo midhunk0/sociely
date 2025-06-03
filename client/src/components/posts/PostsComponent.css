@@ -6,7 +6,7 @@
     gap: 4px;
 }
 
-.posts-post{
+.posts-grid{
     display: flex;
     width: calc(50% - 2px);
     background-color: var(--text1);
@@ -14,22 +14,22 @@
     transition: all 0.3s ease-in-out;
 }
 
-.posts-post:hover{
+.posts-grid:hover{
     background-color: var(--orange);
     border-radius: 8px;
 }
 
-.posts-post img{
+.posts-grid img{
     width: 100%;
     padding: 4px;
     transition: all 0.3s ease-in-out;
 }
 
-.posts-post img:hover{
+.posts-grid img:hover{
     border-radius: 8px;
 }
 
-.posts-post.skeleton{
+.posts-grid.skeleton{
     width: calc(50% - 2px);
     height: 200px;
     background: linear-gradient(
@@ -42,6 +42,34 @@
     background-size: 200% 100%;
     border: 2px solid var(--orange);
     animation: shimmer 1.5s infinite linear;
+}
+
+.posts-list-header{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.posts-list{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.posts-list-post{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: scroll;
+    gap: 8px;
+    padding: 8px;
+    border: 2px solid var(--bg3);
+    border-radius: 8px;
+    background-color: var(--bg1);
+}
+
+.posts-list-post img{
+    width: 100%;
 }
 
 @keyframes shimmer {

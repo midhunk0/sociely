@@ -1,7 +1,6 @@
 .chat{
     display: flex;
     width: 100%;
-    /* border: 2px solid var(--bg3); */
     border-radius: 16px;
 }
 
@@ -78,6 +77,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    height: calc(100% - 100px);
     overflow: scroll;
 }
 
@@ -97,7 +97,7 @@
 }
 
 .chat-selected-user-input input{
-    padding: 16px;
+    padding: 12px;
     width: 100%;
     border: none;
     outline: none;
@@ -121,7 +121,7 @@
 
 .chat-selected-user-input button{
     display: flex;
-    padding: 16px;
+    padding: 12px;
     cursor: pointer;
     background-color: var(--bg1);
     border: none;
@@ -148,13 +148,11 @@
     background-color: var(--bg1);
     border: 2px solid var(--bg3);
     border-bottom-right-radius: 0px;
-
 }
 
 .chat-receive-message{
     display: flex;
     gap: 4px;
-
     padding: 12px;
     background-color: var(--bg3);
     border: 2px solid var(--bg3);

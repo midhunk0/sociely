@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function PostsComponent({ posts }: { posts: FetchedPostType[]}){
     const [imagesLoaded, setImagesLoaded]=useState<boolean>(false);
+    const [view, setView]=useState<string>("grid");
 
     useEffect(()=>{
         if(!posts.length) return;
@@ -24,7 +25,7 @@ export default function PostsComponent({ posts }: { posts: FetchedPostType[]}){
         return(
             <div className="posts">
                 {[...Array(5)].map((_, index)=>(
-                    <div key={index} className="posts-post skeleton"></div>
+                    <div key={index} className="posts-grid skeleton"></div>
                 ))}
             </div>
         )
@@ -32,13 +33,29 @@ export default function PostsComponent({ posts }: { posts: FetchedPostType[]}){
 
     return(
         <div className="posts">
-            {posts.map((post)=>(
-                <div key={post._id} className="posts-post">
-                    {post.imageUrls.map((image, index)=>(
-                        <img key={index} src={image} alt="image"/>
-                    ))}
+            {view==="grid" 
+                ? posts.map((post)=>(
+                    <div key={post._id} className="posts-grid" onClick={()=>setView("list")}>
+                        {post.imageUrls.map((image, index)=>(
+                            <img key={index} src={image} alt="image"/>
+                        ))}
+                    </div>
+                ))
+                : <div className="posts-list-header">
+                    <img src="/left-white.png" alt="left" className="icon" onClick={()=>setView("grid")}/>
+                    <div className="posts-list">
+                        {posts.map((post)=>(
+                            <div key={post._id} className="posts-list-post">
+                                <h2>{post.title}</h2>
+                                {post.imageUrls.map((image, index)=>
+                                    <img key={index} src={image} alt="image"/>
+                                )}
+                                <p>{post.description}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            ))}
+            }
         </div>
     )
 }
