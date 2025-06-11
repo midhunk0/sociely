@@ -12,12 +12,20 @@ export default function Chat(){
     const profile=useSelector((state: RootState)=>state.profile);
     const { followings, fetchFollowings }=useFetch();
 
-    const [selected, setSelected]=useState<UserType>();
+    const [selected, setSelected]=useState<UserType | null>();
     const [searchUser, setSearchUser]=useState<string>("");
     const [chatId, setChatId]=useState<string>("");
     const [showUsers, setShowUsers]=useState<UserType[]>([]);
     const [message, setMessage]=useState<string>("");
     const [messages, setMessages]=useState<MessageType[]>([]);
+    const [width, setwidth]=useState(window.innerWidth);
+
+    useEffect(()=>{
+        const handleResize=()=>setwidth(window.innerWidth);
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return ()=>window.removeEventListener("resize", handleResize);
+    })
 
     const bottomRef=useRef<HTMLDivElement | null>(null);
 
@@ -156,6 +164,7 @@ export default function Chat(){
 
     return(
         <div className="chat">
+            {(width>=640 || width<640 && !selected) &&
             <div className="chat-users">
                 <h1>chat</h1>
                 <div className="chat-users-search">
@@ -169,15 +178,24 @@ export default function Chat(){
                     </div>
                 ))}
             </div>
-            <div className="chat-selected">
+            }
+            {(width>=640 || width<640 && selected) && 
+            <div className={`chat-selected ${selected!==null ? "selected" : "unselected"}`}>
                 {selected && 
                     <div className="chat-selected-user">
-                        <p>{selected.username}</p>
+                        <div className="chat-selected-user-header">
+                            {width<640 && 
+                                <button onClick={()=>setSelected(null)}>
+                                    <img src="/left-orange.png" alt="left" className="icon"/>
+                                </button>
+                            }
+                            <p>{selected.username}</p>
+                        </div>
 
                         <div className="chat-selected-user-messages">
                             {messages && (()=>{
                                 const renderedDates=new Set<string>();
-
+                                
                                 return messages.map((item, index)=>{
                                     if(!item.timestamp) return;
                                     const dateObj=new Date(item.timestamp);
@@ -216,6 +234,7 @@ export default function Chat(){
                     </div>
                 }
             </div>
+            }
         </div>
     )
 }

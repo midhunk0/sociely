@@ -469,6 +469,37 @@ async function fetchPosts(req, res){
     }
 }
 
+async function fetchAllPosts(req, res){
+    try{
+        const apiUrl=process.env.API_URL;
+        const posts=await Post.find()
+            .populate("userId", "username profileImage")
+            .sort({ createdAt: -1 })
+            .lean();
+
+        const formattedPosts=posts.map(post=>{
+            const imageUrls=post.postImages.map((_, index)=>
+                `${apiUrl}/fetchImage/${post._id}/${index}`
+            );
+
+            return{
+                _id: post._id,
+                title: post.title,
+                description: post.description,
+                userId: post.userId,
+                likesCount: post.likesCount,
+                imageUrls,
+                createdAt: post.createdAt
+            }
+        })
+
+        return res.status(200).json({ message: "Posts fetched successfully", posts: formattedPosts })
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 async function editPost(req, res){
 
 }
@@ -555,6 +586,7 @@ module.exports={
     fetchImage,
     fetchPost,
     fetchPosts,
+    fetchAllPosts,
     editPost,
     deletePost,
     toggleLike,

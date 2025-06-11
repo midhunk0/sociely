@@ -55,7 +55,7 @@
 
 .profile-user-details{
     display: flex;
-    width: 70%;
+    /* width: 70%; */
     justify-content: space-between;
     margin-top: auto;
 }

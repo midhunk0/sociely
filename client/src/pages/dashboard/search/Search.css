@@ -21,3 +21,15 @@
     border: 2px solid var(--orange);
     border-radius: 8px;
 }
+
+@media(max-width: 1080px){
+    .search{
+        width: 70%;
+    }
+}
+
+@media(max-width: 720px){
+    .search{
+        width: 100%;
+    }
+}

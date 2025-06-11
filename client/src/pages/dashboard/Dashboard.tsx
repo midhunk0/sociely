@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Topbar from "../../components/topbar/Topbar";
 
-export default function Dashboard() {
+export default function Dashboard(){
     const [isMobile, setIsMobile]=useState(false);
 
     useEffect(()=>{

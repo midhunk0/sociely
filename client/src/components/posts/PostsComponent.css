@@ -1,7 +1,6 @@
 .posts{
     display: flex;
     flex-wrap: wrap;
-    min-height: calc(100% - 154px);
     overflow: scroll;
     gap: 4px;
 }
@@ -11,6 +10,7 @@
     width: calc(50% - 2px);
     background-color: var(--text1);
     cursor: pointer;
+    height: 200px;
     transition: all 0.3s ease-in-out;
 }
 
@@ -78,5 +78,23 @@
     }
     100% {
         background-position: 100% 0;
+    }
+}
+
+@media(max-width: 640px){
+    .posts{
+        flex-direction: column;
+        gap: 16px;
+        flex-wrap: nowrap;
+    }
+
+    .posts-grid{
+        width: 100%;
+        height: fit-content;
+    }
+
+    .posts-grid.skeleton{
+        width: 100%;
+        height: 505px;
     }
 }

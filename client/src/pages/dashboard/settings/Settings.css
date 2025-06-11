@@ -22,3 +22,9 @@
     background-color: var(--orange);
     color: var(--white);
 }
+
+@media(max-width: 720px){
+    .settings{
+        width: 100%;
+    }
+}

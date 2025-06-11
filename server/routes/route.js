@@ -1,6 +1,33 @@
 const express=require("express");
 const router=express.Router();
-const { registerUser, loginUser, logoutUser, fetchProfile, searchUser, fetchUser, toggleFollowUser, fetchFollowers, fetchFollowings, deleteUser, updateUser, addPost, editPost, deletePost, toggleLike, addComment, editComment, deleteComment, sendOTP, verifyOTP, fetchImage, fetchPost, fetchPosts, chat, fetchMessages }=require("../controllers/controller");
+const { 
+    registerUser, 
+    loginUser, 
+    logoutUser, 
+    fetchProfile, 
+    searchUser, 
+    fetchUser, 
+    toggleFollowUser, 
+    fetchFollowers, 
+    fetchFollowings, 
+    deleteUser, 
+    updateUser, 
+    addPost, 
+    editPost, 
+    deletePost, 
+    toggleLike, 
+    addComment, 
+    editComment, 
+    deleteComment, 
+    sendOTP, 
+    verifyOTP, 
+    fetchImage, 
+    fetchPost, 
+    fetchPosts, 
+    chat, 
+    fetchMessages, 
+    fetchAllPosts 
+}=require("../controllers/controller");
 const authMiddleware=require("../middlewares/auth");
 const upload = require("../config/multer");
 
@@ -20,6 +47,7 @@ router.post("/addPost", upload.array("images"), authMiddleware, addPost);
 router.get("/fetchImage/:postId/:imageIndex", authMiddleware, fetchImage);
 router.get("/fetchPost/:postId", authMiddleware, fetchPost);
 router.get("/fetchPosts/:userId", authMiddleware, fetchPosts);
+router.get("/fetchAllPosts", authMiddleware, fetchAllPosts);
 router.put("/editPost/:postId", upload.array("images"), authMiddleware, editPost);
 router.delete("/deletePost/:postId", authMiddleware, deletePost);
 router.put("/toggleLike/:postId", authMiddleware, toggleLike);

@@ -119,6 +119,7 @@ a{
 .form-password button{
     position: absolute;
     background-color: var(--bg1);
+    border-radius: 32px;
     display: flex;
     border: none;
     outline: none;
