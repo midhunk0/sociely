@@ -36,7 +36,7 @@ router.post("/sendOTP", sendOTP);
 router.post("/verifyOTP", verifyOTP);
 router.post("/loginUser", loginUser);
 router.put("/logoutUser", logoutUser);
-router.put("/updateUser", upload.single("image"), authMiddleware, updateUser);
+router.put("/updateUser", upload.single("profileImage"), authMiddleware, updateUser);
 router.get("/fetchProfile", authMiddleware, fetchProfile);
 router.post("/searchUser", authMiddleware, searchUser);
 router.get("/fetchUser/:userId", authMiddleware, fetchUser);

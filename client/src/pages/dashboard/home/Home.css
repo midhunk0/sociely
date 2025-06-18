@@ -33,3 +33,22 @@
     object-fit: cover;
     border-radius: 8px;
 }
+
+.home-post-options{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.home-post-like{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.home-post-comment{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}

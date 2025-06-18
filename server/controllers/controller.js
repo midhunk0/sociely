@@ -213,6 +213,14 @@ async function updateUser(req, res){
             user.name=name;
             otpRequired=true;
         }
+        if(req.file){
+            const { originalname, mimetype, buffer }=req.file;
+            user.profileImage={
+                imageName: `${Date.now()}-${originalname}`,
+                imageType: mimetype,
+                image: buffer
+            }
+        }
         if(otpRequired){
             const otp=generateOTP();
             user.otp=otp;
@@ -289,6 +297,7 @@ async function fetchUser(req, res){
         if(!user){
             return res.status(400).json({ message: "User not found" });
         }
+        
         return res.status(200).json({ message: "User found", user });
     }
     catch(error){
@@ -478,9 +487,7 @@ async function fetchAllPosts(req, res){
             .lean();
 
         const formattedPosts=posts.map(post=>{
-            const imageUrls=post.postImages.map((_, index)=>
-                `${apiUrl}/fetchImage/${post._id}/${index}`
-            );
+            const imageUrls=post.postImages.map((_, index)=>`${apiUrl}/fetchImage/${post._id}/${index}`);
 
             return{
                 _id: post._id,
@@ -488,6 +495,8 @@ async function fetchAllPosts(req, res){
                 description: post.description,
                 userId: post.userId,
                 likesCount: post.likesCount,
+                likes: post.likes,
+                comments: post.comments,
                 imageUrls,
                 createdAt: post.createdAt
             }
@@ -509,7 +518,32 @@ async function deletePost(req, res){
 }
 
 async function toggleLike(req, res){
-
+    try{
+        const userId=req.user.userId;
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const { postId }=req.params;
+        const post=await Post.findById(postId);
+        if(!post){
+            return res.status(400).json({ message: "Post not found" });
+        }
+        const likedIndex=post.likes.findIndex(like=>like.userId.toString()===userId);
+        if(likedIndex!==-1){
+            post.likes.splice(likedIndex, 1);
+            post.likesCount=Math.max(0, post.likesCount-1);
+        }
+        else{
+            post.likes.push({userId});
+            post.likesCount+=1;
+        }
+        await post.save();
+        return res.status(200).json({ message: likedIndex!==-1 ? "Unliked" : "Liked" })
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
 }
 
 async function addComment(req, res){

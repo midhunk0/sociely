@@ -36,7 +36,7 @@ export default function PostsComponent({ posts }: { posts: FetchedPostType[]}){
             {view==="grid" 
                 ? posts.map((post)=>(
                     <div key={post._id} className="posts-grid" onClick={()=>setView("list")}>
-                        {post.imageUrls.map((image, index)=>(
+                        {post.imageUrls && post.imageUrls.map((image, index)=>(
                             <img key={index} src={image} alt="image"/>
                         ))}
                     </div>
@@ -47,7 +47,7 @@ export default function PostsComponent({ posts }: { posts: FetchedPostType[]}){
                         {posts.map((post)=>(
                             <div key={post._id} className="posts-list-post">
                                 <h2>{post.title}</h2>
-                                {post.imageUrls.map((image, index)=>
+                                {post.imageUrls && post.imageUrls.map((image, index)=>
                                     <img key={index} src={image} alt="image"/>
                                 )}
                                 <p>{post.description}</p>

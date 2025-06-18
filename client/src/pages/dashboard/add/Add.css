@@ -45,7 +45,7 @@
     overflow-x: auto; 
     scroll-snap-type: x mandatory; 
     background: var(--bg3);
-    border-radius: 12px;
+    border-radius: 16px;
 }
 
 .add-post-image{
@@ -77,7 +77,6 @@
 .add-post-remove-image:hover{
     border-radius: 8px;
     border: 2px solid var(--orange);
-    /* background-color: var(--text1); */
 }
 
 .add-post-remove-image img{

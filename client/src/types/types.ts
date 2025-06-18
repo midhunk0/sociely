@@ -14,6 +14,7 @@ export interface UserType{
     email?: string;
     followers?: UserRef[];
     followings?: UserRef[];
+    imageUrl?: string;
     posts?: string[];
     _id?: string;
 }

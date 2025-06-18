@@ -11,6 +11,7 @@ import PostsComponent from "../../../components/posts/PostsComponent";
 export default function Profile(){
     const navigate=useNavigate();
     const profile=useSelector((state: RootState)=>state.profile);
+    console.log(profile)
     const [activeTab, setActiveTab]=useState<string>("posts");
     const [hover, setHover]=useState<boolean>(false);
     const { followers, fetchFollowers, followings, fetchFollowings, posts, fetchPosts }=useFetch();
@@ -26,7 +27,7 @@ export default function Profile(){
     return(
         <div className="profile">
             <div className="profile-header">
-                <img src="/profile-active.png" alt="profile" className="profile-image"/>
+                <img src={profile.imageUrl ? profile.imageUrl : "/profile-active.png"} alt="profile" className="profile-image"/>
                 <div className="profile-details">
                     <div className="profile-details-header">
                         <h1>{profile.username}</h1>

@@ -17,21 +17,34 @@ export default function Update(){
         oldPassword: "",
         newPassword: ""
     });
+    const [profileImage, setProfileImage]=useState<File>();
     const [visible, setVisible]=useState<boolean[]>([false, false]);
     const { theme }=useTheme();
 
     async function updateUser(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
+        const formData=new FormData();
+        formData.append("name", updateUserData.name ?? "");
+        formData.append("username", updateUserData.username ?? "");
+        formData.append("email", updateUserData.email ?? "");
+        formData.append("oldPassword", updateUserData.oldPassword ?? "");
+        formData.append("newPassword", updateUserData.newPassword ?? "");
+        if(profileImage){
+            formData.append("profileImage", profileImage);
+        }
+
         try{
             const response=await fetch(`${apiUrl}/updateUser`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updateUserData),
+                body: formData,
                 credentials: "include"
             });
             const result=await response.json();
             if("verified" in result && !result.verified){
                 navigate("/verification", { state: { email: result.email }});
+            }
+            else{
+                navigate("/profile");
             }
             console.log(result.message);
         }
@@ -47,9 +60,34 @@ export default function Update(){
         })
     }
 
+    function inputImage(e: React.ChangeEvent<HTMLInputElement>){
+        if(e.target.files){
+            const image=e.target.files[0];
+            setProfileImage(image);
+        }
+    }
+
+    function removeImage(e: React.MouseEvent){
+        e.preventDefault();
+        setProfileImage(undefined);
+    }
+
     return(
         <form className="update-form" onSubmit={updateUser}>
             <h1>Update User</h1>
+            <div className="update-profile-input">
+                <label htmlFor="image">Image</label>
+                <label htmlFor="image" className="update-profile-image-input">Add image</label>
+                <input type="file" name="image" id="image" onChange={inputImage} accept="image/*"/>
+            </div>
+            {profileImage && 
+                <div className="update-profile-image">
+                    <img src={URL.createObjectURL(profileImage)} alt="image"/>
+                    <button type="button" className="update-profile-remove-image" onClick={(e)=>removeImage(e)}>
+                        <img src="/close.png" alt="close" className="icon"/>
+                    </button>
+                </div>
+            }
             <div className="form-input">
                 <label htmlFor="name">Name</label>
                 <input type="text" id="name" name="name" value={updateUserData.name} onChange={handleInputChange} placeholder="Alexander"/>
