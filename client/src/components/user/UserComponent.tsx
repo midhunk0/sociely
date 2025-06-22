@@ -58,7 +58,7 @@ export default function UserComponent({ userId }: { userId: string | undefined }
     return(
         <div className="user-component">
             <div className="user-header">
-                <img src="/profile-active.png" alt="user" className="user-image"/>
+                <img src={user.imageUrl || "/profile-active.png"} alt="user" className="user-image"/>
                 <div className="user-details">
                     <div className="user-details-header">
                         <h1>{user.username}</h1>

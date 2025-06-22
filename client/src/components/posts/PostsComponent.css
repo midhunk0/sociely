@@ -40,8 +40,8 @@
         var(--bg2) 80%    
     );
     background-size: 200% 100%;
-    border: 2px solid var(--orange);
     animation: shimmer 1.5s infinite linear;
+    border: 2px solid var(--orange);
 }
 
 .posts-list-header{

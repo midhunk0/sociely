@@ -251,14 +251,43 @@ async function updateUser(req, res){
     }
 }
 
+async function fetchProfileImage(req, res){
+    try{
+        const { userId }=req.params;
+        if(!userId){
+            return res.status(400).json({ message: "UserId is required" });
+        }
+        const user=await User.findById(userId).select("-password");
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const profileImage=user.profileImage;
+        if(!profileImage){
+            return res.status(400).json({ message: "Profile image is not found" });
+        }
+        res.set("Content-Type", profileImage.imageType || "application/octet-stream");
+        return res.send(profileImage.image);
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 async function fetchProfile(req, res){
     try{
+        const apiUrl=process.env.API_URL;
         const userId=req.user.userId;
         const user=await User.findById(userId).select("-password");
         if(!user){
             return res.status(400).json({ message: "User not found" });
         }
-        return res.status(200).json({ message: "User profile fetched", user });
+        const { profileImage, ...profile }=user.toObject();
+        const imageUrl=profileImage?.image ? `${apiUrl}/fetchProfileImage/${userId}` : null;
+        const profileData={
+            ...profile,
+            imageUrl
+        }
+        return res.status(200).json({ message: "User profile fetched", user: profileData });
     }
     catch(error){
         return res.status(500).json({ error: error.message });
@@ -267,6 +296,7 @@ async function fetchProfile(req, res){
 
 async function searchUser(req, res){
     try{
+        const apiUrl=process.env.API_URL;
         const { identifier }=req.body;
         if(!identifier){
             return res.status(400).json({ message: "Username or name is required" });
@@ -280,7 +310,15 @@ async function searchUser(req, res){
         if(!users || users.length===0){
             return res.status(400).json({ message: "User not found", users: [] });
         }
-        return res.status(200).json({ message: "Users found", users });
+        const usersWithImage=users.map(user=>{
+            const { profileImage, ...profile }=user.toObject();
+            const imageUrl=profileImage?.image ? `${apiUrl}/fetchProfileImage/${user._id}` : null;
+            return{
+                ...profile,
+                imageUrl
+            }
+        })
+        return res.status(200).json({ message: "Users found", users: usersWithImage });
     }
     catch(error){
         return res.status(500).json({ error: error.message });
@@ -289,6 +327,7 @@ async function searchUser(req, res){
 
 async function fetchUser(req, res){
     try{
+        const apiUrl=process.env.API_URL;
         const { userId }=req.params;
         if(!userId){
             return res.status(400).json({ message: "UserId is required" });
@@ -297,8 +336,13 @@ async function fetchUser(req, res){
         if(!user){
             return res.status(400).json({ message: "User not found" });
         }
-        
-        return res.status(200).json({ message: "User found", user });
+        const { profileImage, ...profile }=user.toObject();
+        const imageUrl=profileImage?.image ? `${apiUrl}/fetchProfileImage/${userId}` : null;
+        const profileData={
+            ...profile,
+            imageUrl
+        }
+        return res.status(200).json({ message: "User found", user: profileData });
     }
     catch(error){
         return res.status(500).json({ error: error.message });
@@ -340,34 +384,55 @@ async function toggleFollowUser(req, res){
 
 async function fetchFollowers(req, res){
     try{
+        const apiUrl=process.env.API_URL;
         const { userId }=req.params;
-        const user=await User.findById(userId).populate({
-            path: "followers.userId",
-            select: "username name _id"
-        });
+        const user=await User.findById(userId).select("-password");
         if(!user){
             return res.status(400).json({ message: "User not found" });
         }
-        const followers=user.followers.map(follower=>follower.userId);
-        return res.status(200).json({ followers });
-    }
+        const followers=user.followers;
+        const followersDetails=await Promise.all(followers.map(async(follower)=>{
+            const followerDetail=await User.findById(follower.userId);
+            if(!followerDetail){
+                return null;
+            }
+            const { profileImage, ...profile }=followerDetail.toObject();
+            const imageUrl=profileImage?.image ? `${apiUrl}/fetchProfileImage/${followerDetail._id}` : null;
+            return{
+                ...profile,
+                imageUrl
+            }
+        }))
+        return res.status(200).json({ followers: followersDetails });
+    } 
     catch(error){
         return res.status(500).json({ error: error.message });
     }
 }
 
+
 async function fetchFollowings(req, res){
     try{
+        const apiUrl=process.env.API_URL;
         const { userId }=req.params;
-        const user=await User.findById(userId).populate({
-            path: "followings.userId",
-            select: "username name _id"
-        });
+        const user=await User.findById(userId).select("-password");
         if(!user){
             return res.status(400).json({ message: "User not found" });
         }
-        const followings=user.followings.map(following=>following.userId);
-        return res.status(200).json({ followings });
+        const followings=user.followings;
+        const followingsDetails=await Promise.all(followings.map(async(following)=>{
+            const folloiwinDetail=await User.findById(following.userId);
+            if(!folloiwinDetail){
+                return null;
+            }
+            const { profileImage, ...profile }=folloiwinDetail.toObject();
+            const imageUrl=profileImage?.image ? `${apiUrl}/fetchProfileImage/${folloiwinDetail._id}` : null;
+            return{
+                ...profile,
+                imageUrl
+            }
+        }))
+        return res.status(200).json({ followings: followingsDetails });
     }
     catch(error){
         return res.status(500).json({ error: error.message });
@@ -375,36 +440,41 @@ async function fetchFollowings(req, res){
 }
 
 async function addPost(req, res){
-    const userId=req.user.userId;
-    const user=await User.findById(userId);
-    if(!user){
-        return res.status(400).json({ message: "User not found" });
+    try{
+        const userId=req.user.userId;
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const { title, description }=req.body;
+        if(!title){
+            return res.status(400).json({ message: "Title is required for the post" });
+        }
+        if(!description){
+            return res.status(400).json({ message: "Description is required for the post" });
+        }
+        let postImages;
+        if(Array.isArray(req.files)){
+            postImages=req.files.map((image)=>({
+                imageName: `${Date.now()}-${image.originalname}`,
+                imageType: image.mimetype,
+                image: image.buffer
+            }));
+        }
+        const post=new Post({
+            userId,
+            title,
+            description,
+            postImages
+        });
+        user.posts.push(post._id);
+        await user.save();
+        await post.save();
+        return res.status(200).json({ message: "Post added successfully" });
     }
-    const { title, description }=req.body;
-    if(!title){
-        return res.status(400).json({ message: "Title is required for the post" });
+    catch(error){
+        return res.status(500).json({ error: error.message });
     }
-    if(!description){
-        return res.status(400).json({ message: "Description is required for the post" });
-    }
-    let postImages;
-    if(Array.isArray(req.files)){
-        postImages=req.files.map((image)=>({
-            imageName: `${Date.now()}-${image.originalname}`,
-            imageType: image.mimetype,
-            image: image.buffer
-        }));
-    }
-    const post=new Post({
-        userId,
-        title,
-        description,
-        postImages
-    });
-    user.posts.push(post._id);
-    await user.save();
-    await post.save();
-    return res.status(200).json({ message: "Post added successfully" });
 }
 
 async function fetchImage(req, res){
@@ -493,7 +563,7 @@ async function fetchAllPosts(req, res){
                 _id: post._id,
                 title: post.title,
                 description: post.description,
-                userId: post.userId,
+                user: post.userId,
                 likesCount: post.likesCount,
                 likes: post.likes,
                 comments: post.comments,
@@ -547,7 +617,33 @@ async function toggleLike(req, res){
 }
 
 async function addComment(req, res){
-
+    try{
+        const userId=req.user.userId;
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const { postId }=req.params;
+        const post=await Post.findById(postId);
+        if(!post){
+            return res.status(400).json({ message: "Post not found" });
+        }
+        const { comment }=req.body;
+        if(!comment){
+            return res.status(400).json({ message: "Comment is required" });
+        }
+        const commentObj={ 
+            userId: userId, 
+            comment: comment,
+            replies: []
+         };
+        post.comments.push(commentObj);
+        await post.save();
+        return res.status(200).json({ message: "Comment added" });
+    }
+    catch(error){
+        return res.status(500).json({ error: error.message });
+    }
 }
 
 async function editComment(req, res){
@@ -610,6 +706,7 @@ module.exports={
     loginUser,
     logoutUser,
     updateUser,
+    fetchProfileImage,
     fetchProfile,
     searchUser,
     fetchUser,

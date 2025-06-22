@@ -26,7 +26,8 @@ const {
     fetchPosts, 
     chat, 
     fetchMessages, 
-    fetchAllPosts 
+    fetchAllPosts, 
+    fetchProfileImage
 }=require("../controllers/controller");
 const authMiddleware=require("../middlewares/auth");
 const upload = require("../config/multer");
@@ -37,6 +38,7 @@ router.post("/verifyOTP", verifyOTP);
 router.post("/loginUser", loginUser);
 router.put("/logoutUser", logoutUser);
 router.put("/updateUser", upload.single("profileImage"), authMiddleware, updateUser);
+router.get("/fetchProfileImage/:userId", authMiddleware, fetchProfileImage);
 router.get("/fetchProfile", authMiddleware, fetchProfile);
 router.post("/searchUser", authMiddleware, searchUser);
 router.get("/fetchUser/:userId", authMiddleware, fetchUser);

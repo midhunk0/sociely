@@ -21,6 +21,7 @@
     border-radius: 50%;
     background-color: var(--white);
     border: 2px solid var(--bg3);
+    object-fit: cover;
 }
 
 .user-details{

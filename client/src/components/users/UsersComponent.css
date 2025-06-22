@@ -20,6 +20,7 @@
     aspect-ratio: 1;
     border-radius: 24px;
     background-color: var(--bg1);
+    object-fit: cover;
 }
 
 .usersList-user p{

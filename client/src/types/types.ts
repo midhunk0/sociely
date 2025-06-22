@@ -60,7 +60,10 @@ export interface CommentType{
 
 export interface FetchedPostType{
     _id: string;
-    userId: string;
+    user: {
+        username: string;
+        profileImage?: string;
+    };
     title: string;
     description: string;
     imageUrls: string[];
