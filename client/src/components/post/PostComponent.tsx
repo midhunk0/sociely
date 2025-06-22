@@ -4,17 +4,11 @@ import { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 
 export default function PostComponent({ postId }: { postId: string | undefined }){
-    const { post, fetchPost, user, fetchUser }=useFetch();
+    const { post, fetchPost }=useFetch();
 
     useEffect(()=>{
         fetchPost(postId || "");
     }, [postId]);
-
-    useEffect(()=>{
-        if(post?.userId){
-            fetchUser(post.userId);
-        }
-    }, [post]);
 
     function formatDate(dateInput: string){
         const date=new Date(dateInput);
@@ -37,11 +31,11 @@ export default function PostComponent({ postId }: { postId: string | undefined }
     }
     
     return(
-        post && user && 
+        post && 
         <div key={post._id} className="post">
             <div className="post-user">
                 <img src="/profile.png" className="icon"/>
-                <p>{user.username}</p>
+                <p>{post.user.username}</p>
             </div>
             <div className="post-desc">
                 <h3>{post.title}</h3>:
